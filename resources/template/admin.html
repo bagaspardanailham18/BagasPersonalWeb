@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Admin Dashboard — Bagas Pardana Ilham's Personal Sanctuary" />
+    <meta name="author" content="Bagas Pardana Ilham" />
+    <title>Admin Dashboard — Personal Sanctuary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ebony: '#0f0f0f',
+                        mist: '#f5f5f0',
+                        pewter: '#9ba1a6',
+                        surface: '#111113',
+                        'surface-2': '#18181b',
+                        'surface-3': '#1e1e22',
+                    },
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                        body: ['"Inter"', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            color: #f5f5f0;
+            background-color: #0a0a0b;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #0a0a0b;
+        }
+
+        ::selection {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2e;
+            border-radius: 999px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .d1 {
+            animation-delay: 50ms;
+        }
+
+        .d2 {
+            animation-delay: 100ms;
+        }
+
+        .d3 {
+            animation-delay: 150ms;
+        }
+
+        .d4 {
+            animation-delay: 200ms;
+        }
+
+        .d5 {
+            animation-delay: 250ms;
+        }
+
+        .d6 {
+            animation-delay: 300ms;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            color: #9ba1a6;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        /* Stat cards */
+        .stat-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7075;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .data-table td {
+            padding: 0.875rem 1rem;
+            font-size: 0.875rem;
+            color: #c4c8cc;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-green {
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+        }
+
+        .badge-amber {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+        }
+
+        .badge-blue {
+            background: rgba(59, 130, 246, 0.12);
+            color: #60a5fa;
+        }
+
+        .action-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            color: #9ba1a6;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .action-btn-danger:hover {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem 0.5rem 2.25rem;
+            color: #f5f5f0;
+            font-size: 0.8125rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input::placeholder {
+            color: rgba(155, 161, 166, 0.6);
+        }
+
+        .search-input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .chart-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.25rem;
+        }
+    </style>
+</head>
+
+<body class="bg-[#0a0a0b] text-mist font-body">
+
+    <!-- Mobile overlay -->
+    <div id="sidebar-overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+    <div class="flex min-h-screen">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside id="sidebar"
+            class="sidebar fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-white/5 bg-[#0c0c0e] p-5 lg:relative lg:translate-x-0">
+
+            <!-- Logo -->
+            <div class="mb-8">
+                <p class="text-[9px] uppercase tracking-[0.4em] text-pewter">Admin Panel</p>
+                <h1 class="font-display text-xl text-white mt-1">Sanctuary</h1>
+            </div>
+
+            <!-- Nav -->
+            <nav class="flex-1 space-y-1">
+                <a href="#" class="sidebar-link active" data-section="dashboard"
+                    onclick="switchSection('dashboard', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="5" rx="1.5" />
+                        <rect x="14" y="12" width="7" height="9" rx="1.5" />
+                        <rect x="3" y="16" width="7" height="5" rx="1.5" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="sidebar-link" data-section="projects" onclick="switchSection('projects', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M2 9.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+                    </svg>
+                    Projects
+                </a>
+                <a href="#" class="sidebar-link" data-section="blog" onclick="switchSection('blog', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9" />
+                        <path
+                            d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+                    </svg>
+                    Blog Posts
+                </a>
+                <a href="#" class="sidebar-link" data-section="messages" onclick="switchSection('messages', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    Messages
+                    <span
+                        class="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-[10px] text-white">3</span>
+                </a>
+
+                <div class="my-4 h-px bg-white/5"></div>
+
+                <a href="#" class="sidebar-link" data-section="settings" onclick="switchSection('settings', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+
+            <!-- Back to site -->
+            <div class="mt-auto pt-4 border-t border-white/5">
+                <a href="index.html" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                    </svg>
+                    Back to site
+                </a>
+            </div>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <div class="flex flex-1 flex-col min-w-0">
+
+            <!-- Top bar -->
+            <header
+                class="flex items-center justify-between border-b border-white/5 bg-[#0a0a0b]/80 px-6 py-4 backdrop-blur-md sticky top-0 z-30 lg:px-8">
+                <!-- Mobile hamburger -->
+                <button id="hamburger"
+                    class="lg:hidden p-2 -ml-2 rounded-lg text-pewter hover:text-white hover:bg-white/5 transition"
+                    onclick="toggleSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+
+                <h2 id="page-title" class="font-display text-lg text-white hidden lg:block">Dashboard</h2>
+
+                <div class="flex items-center gap-4 ml-auto">
+                    <!-- Notification -->
+                    <button class="relative p-2 rounded-lg text-pewter hover:text-white hover:bg-white/5 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                        </svg>
+                        <span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-emerald-400"></span>
+                    </button>
+                    <!-- Avatar -->
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="h-8 w-8 rounded-full bg-gradient-to-br from-white/15 to-white/5 flex items-center justify-center text-xs font-medium text-white">
+                            BP
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm text-white font-medium leading-none">Bagas P.</p>
+                            <p class="text-[11px] text-pewter mt-0.5">Admin</p>
+                        </div>
+                    </div>
+                    <!-- Logout -->
+                    <a href="login.html" class="action-btn text-[11px] hidden sm:inline-flex">Logout</a>
+                </div>
+            </header>
+
+            <!-- Page content -->
+            <main class="flex-1 overflow-y-auto p-6 lg:p-8">
+
+                <!-- ══ DASHBOARD SECTION ══ -->
+                <section id="section-dashboard" class="space-y-8">
+
+                    <!-- Stat cards -->
+                    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                        <!-- Projects -->
+                        <div class="stat-card opacity-0 animate-in d1">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M2 9.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+                                    </svg>
+                                </div>
+                                <span class="badge badge-green">+2 this month</span>
+                            </div>
+                            <p class="text-3xl font-display font-semibold text-white">6</p>
+                            <p class="text-xs text-pewter mt-1 uppercase tracking-wider">Total Projects</p>
+                        </div>
+
+                        <!-- Blog Posts -->
+                        <div class="stat-card opacity-0 animate-in d2">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 20h9" />
+                                        <path
+                                            d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+                                    </svg>
+                                </div>
+                                <span class="badge badge-blue">+1 this week</span>
+                            </div>
+                            <p class="text-3xl font-display font-semibold text-white">4</p>
+                            <p class="text-xs text-pewter mt-1 uppercase tracking-wider">Blog Posts</p>
+                        </div>
+
+                        <!-- Views -->
+                        <div class="stat-card opacity-0 animate-in d3">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </div>
+                                <span class="badge badge-green">↑ 12%</span>
+                            </div>
+                            <p class="text-3xl font-display font-semibold text-white">12.4k</p>
+                            <p class="text-xs text-pewter mt-1 uppercase tracking-wider">Total Views</p>
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="stat-card opacity-0 animate-in d4">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                    </svg>
+                                </div>
+                                <span class="badge badge-amber">3 unread</span>
+                            </div>
+                            <p class="text-3xl font-display font-semibold text-white">8</p>
+                            <p class="text-xs text-pewter mt-1 uppercase tracking-wider">Messages</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts row -->
+                    <div class="grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
+                        <!-- Views chart -->
+                        <div class="chart-card p-6 opacity-0 animate-in d5">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-pewter">Page Views</p>
+                                    <p class="text-sm text-white/60 mt-0.5">Last 7 days</p>
+                                </div>
+                                <div class="flex gap-1">
+                                    <button class="action-btn text-[11px]" onclick="setChartRange('7d')">7D</button>
+                                    <button class="action-btn text-[11px]" onclick="setChartRange('30d')">30D</button>
+                                </div>
+                            </div>
+                            <canvas id="views-chart" height="180" class="w-full"></canvas>
+                        </div>
+
+                        <!-- Recent activity -->
+                        <div class="chart-card p-6 opacity-0 animate-in d6">
+                            <p class="text-xs uppercase tracking-widest text-pewter mb-5">Recent Activity</p>
+                            <div class="space-y-4" id="activity-feed">
+                                <div class="flex gap-3">
+                                    <div class="mt-1 h-2 w-2 rounded-full bg-emerald-400 shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm text-white/90">Published "Latency Études"</p>
+                                        <p class="text-[11px] text-pewter mt-0.5">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mt-1 h-2 w-2 rounded-full bg-blue-400 shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm text-white/90">Updated Sonic Trails Atlas project</p>
+                                        <p class="text-[11px] text-pewter mt-0.5">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mt-1 h-2 w-2 rounded-full bg-amber-400 shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm text-white/90">New message from Aki Tanaka</p>
+                                        <p class="text-[11px] text-pewter mt-0.5">Yesterday</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mt-1 h-2 w-2 rounded-full bg-purple-400 shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm text-white/90">Field Notes Recorder went live</p>
+                                        <p class="text-[11px] text-pewter mt-0.5">2 days ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mt-1 h-2 w-2 rounded-full bg-emerald-400 shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm text-white/90">New subscriber signed up</p>
+                                        <p class="text-[11px] text-pewter mt-0.5">3 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick tables preview -->
+                    <div class="grid gap-6 lg:grid-cols-2">
+                        <!-- Recent projects -->
+                        <div class="chart-card overflow-hidden opacity-0 animate-in d5">
+                            <div class="flex items-center justify-between p-5 pb-0">
+                                <p class="text-xs uppercase tracking-widest text-pewter">Latest Projects</p>
+                                <a href="#" class="text-xs text-pewter hover:text-white transition"
+                                    onclick="event.preventDefault(); switchSection('projects', document.querySelector('[data-section=projects]'))">View
+                                    all →</a>
+                            </div>
+                            <div class="overflow-x-auto mt-4">
+                                <table class="data-table" id="recent-projects-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Recent posts -->
+                        <div class="chart-card overflow-hidden opacity-0 animate-in d6">
+                            <div class="flex items-center justify-between p-5 pb-0">
+                                <p class="text-xs uppercase tracking-widest text-pewter">Latest Blog Posts</p>
+                                <a href="#" class="text-xs text-pewter hover:text-white transition"
+                                    onclick="event.preventDefault(); switchSection('blog', document.querySelector('[data-section=blog]'))">View
+                                    all →</a>
+                            </div>
+                            <div class="overflow-x-auto mt-4">
+                                <table class="data-table" id="recent-posts-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══ PROJECTS SECTION ══ -->
+                <section id="section-projects" class="space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h3 class="font-display text-2xl text-white">Projects</h3>
+                            <p class="text-sm text-pewter mt-1">Manage your portfolio projects</p>
+                        </div>
+                        <button class="add-btn"><span class="text-lg leading-none">+</span> Add Project</button>
+                    </div>
+                    <div class="relative max-w-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-pewter/60">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                        <input type="search" id="projects-search" placeholder="Search projects..."
+                            class="search-input w-full" oninput="filterProjectsTable(this.value)" />
+                    </div>
+                    <div class="chart-card overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="data-table" id="all-projects-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Technologies</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══ BLOG SECTION ══ -->
+                <section id="section-blog" class="space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h3 class="font-display text-2xl text-white">Blog Posts</h3>
+                            <p class="text-sm text-pewter mt-1">Manage your journal entries</p>
+                        </div>
+                        <a href="add-blog.html" class="add-btn"><span class="text-lg leading-none">+</span> Add Post</a>
+                    </div>
+                    <div class="relative max-w-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-pewter/60">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                        <input type="search" id="blog-search" placeholder="Search posts..." class="search-input w-full"
+                            oninput="filterBlogTable(this.value)" />
+                    </div>
+                    <div class="chart-card overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="data-table" id="all-blog-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                        <th>Reading Time</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══ MESSAGES SECTION ══ -->
+                <section id="section-messages" class="space-y-6 hidden">
+                    <div>
+                        <h3 class="font-display text-2xl text-white">Messages</h3>
+                        <p class="text-sm text-pewter mt-1">Inbox from visitors and collaborators</p>
+                    </div>
+                    <div class="space-y-3" id="messages-list"></div>
+                </section>
+
+                <!-- ══ SETTINGS SECTION ══ -->
+                <section id="section-settings" class="space-y-6 hidden">
+                    <div>
+                        <h3 class="font-display text-2xl text-white">Settings</h3>
+                        <p class="text-sm text-pewter mt-1">Configure your admin preferences</p>
+                    </div>
+                    <div class="chart-card p-6 max-w-2xl space-y-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs uppercase tracking-widest text-pewter">Display Name</label>
+                            <input type="text" value="Bagas Pardana Ilham"
+                                class="search-input w-full !pl-4 !rounded-xl" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs uppercase tracking-widest text-pewter">Email</label>
+                            <input type="email" value="hello@bagas.studio"
+                                class="search-input w-full !pl-4 !rounded-xl" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs uppercase tracking-widest text-pewter">Bio</label>
+                            <textarea rows="3" class="search-input w-full !pl-4 !rounded-xl resize-none"
+                                style="padding-left: 1rem;">Quiet technology, personal rituals. I craft contemplative digital spaces.</textarea>
+                        </div>
+                        <button class="add-btn">Save Changes</button>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        /* ── Data ── */
+        const projects = [
+            { id: 'sonic-trails', title: 'Sonic Trails Atlas', category: 'Website', technologies: ['React', 'Three.js', 'Mapbox', 'Tone.js'], status: 'Live' },
+            { id: 'quiet-interfaces', title: 'Quiet Interfaces Lab', category: 'Website', technologies: ['Next.js', 'Tailwind', 'Framer Motion'], status: 'Live' },
+            { id: 'field-notes', title: 'Field Notes Recorder', category: 'Mobile App', technologies: ['Remix', 'D3.js', 'Supabase', 'p5.js'], status: 'Live' },
+            { id: 'canopy-sensors', title: 'Canopy Sensors Mesh', category: 'IOT', technologies: ['Svelte', 'MQTT', 'Grafana'], status: 'Draft' },
+            { id: 'studio-automation', title: 'Studio Automation Loom', category: 'Automation', technologies: ['Node-RED', 'Notion API', 'Zapier'], status: 'Live' },
+            { id: 'horizon-ai', title: 'Horizon Pulse AI', category: 'AI', technologies: ['Next.js', 'OpenAI', 'Ableton API'], status: 'Beta' },
+        ]
+
+        const blogPosts = [
+            { id: 'latency-etudes', title: 'Latency Études', category: 'IT', date: '2025-01-14', readingTime: '8 min', status: 'Published' },
+            { id: 'running-in-silence', title: 'Running in Silence', category: 'Life', date: '2024-11-02', readingTime: '5 min', status: 'Published' },
+            { id: 'graph-trails', title: 'Graph Trails for Creative Briefs', category: 'IT', date: '2024-09-19', readingTime: '7 min', status: 'Published' },
+            { id: 'kyoto-twilight', title: 'Kyoto Twilight Jog', category: 'Travel', date: '2024-08-04', readingTime: '6 min', status: 'Published' },
+        ]
+
+        const messages = [
+            { from: 'Aki Tanaka', email: 'aki@studio.jp', subject: 'Collaboration on forest soundscape project', time: '2 hours ago', read: false },
+            { from: 'Sarah Chen', email: 'sarah@design.co', subject: 'Love the Quiet Interfaces Lab – can we chat?', time: '5 hours ago', read: false },
+            { from: 'Marcus Rivera', email: 'marcus@dev.io', subject: 'IOT sensor mesh question', time: 'Yesterday', read: false },
+            { from: 'Lena Nguyen', email: 'lena@travel.com', subject: 'Kyoto running route recommendation', time: '2 days ago', read: true },
+            { from: 'Tomás Müller', email: 'tomas@ai.lab', subject: 'Horizon Pulse AI feedback', time: '3 days ago', read: true },
+            { from: 'Yuki Sato', email: 'yuki@music.io', subject: 'Piano sketches collaboration idea', time: '4 days ago', read: true },
+            { from: 'Rina Patel', email: 'rina@consulting.co', subject: 'Consulting engagement inquiry', time: '5 days ago', read: true },
+            { from: 'Leo Kim', email: 'leo@open.dev', subject: 'Open source contribution to Field Notes', time: '1 week ago', read: true },
+        ]
+
+        const formatDate = (d) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        const statusBadge = (s) => {
+            const map = { Live: 'badge-green', Published: 'badge-green', Draft: 'badge-amber', Beta: 'badge-blue' }
+            return `<span class="badge ${map[s] || 'badge-blue'}">${s}</span>`
+        }
+
+        /* ── Sidebar ── */
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar')
+            const overlay = document.getElementById('sidebar-overlay')
+            sidebar.classList.toggle('-translate-x-full')
+            overlay.classList.toggle('active')
+        }
+
+        function switchSection(name, el) {
+            event && event.preventDefault()
+            document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'))
+            document.getElementById('section-' + name)?.classList.remove('hidden')
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'))
+            if (el) el.classList.add('active')
+            const titles = { dashboard: 'Dashboard', projects: 'Projects', blog: 'Blog Posts', messages: 'Messages', settings: 'Settings' }
+            document.getElementById('page-title').textContent = titles[name] || 'Dashboard'
+            // Close mobile sidebar
+            const sidebar = document.getElementById('sidebar')
+            if (window.innerWidth < 1024 && !sidebar.classList.contains('-translate-x-full')) {
+                toggleSidebar()
+            }
+        }
+
+        /* ── Render dashboard tables ── */
+        function renderRecentProjects() {
+            const tbody = document.querySelector('#recent-projects-table tbody')
+            tbody.innerHTML = projects.slice(0, 4).map(p => `
+        <tr>
+          <td class="font-medium text-white">${p.title}</td>
+          <td>${p.category}</td>
+          <td>${statusBadge(p.status)}</td>
+        </tr>
+      `).join('')
+        }
+
+        function renderRecentPosts() {
+            const tbody = document.querySelector('#recent-posts-table tbody')
+            tbody.innerHTML = blogPosts.slice(0, 4).map(p => `
+        <tr>
+          <td class="font-medium text-white">${p.title}</td>
+          <td>${p.category}</td>
+          <td>${formatDate(p.date)}</td>
+        </tr>
+      `).join('')
+        }
+
+        /* ── Render full tables ── */
+        function renderAllProjects(filter = '') {
+            const tbody = document.querySelector('#all-projects-table tbody')
+            const filtered = projects.filter(p => {
+                const q = filter.toLowerCase()
+                return !q || [p.title, p.category, ...p.technologies].join(' ').toLowerCase().includes(q)
+            })
+            tbody.innerHTML = filtered.map(p => `
+        <tr>
+          <td class="font-medium text-white">${p.title}</td>
+          <td>${p.category}</td>
+          <td><div class="flex flex-wrap gap-1">${p.technologies.map(t => `<span class="inline-block rounded-md bg-white/5 px-2 py-0.5 text-[11px] text-pewter">${t}</span>`).join('')}</div></td>
+          <td>${statusBadge(p.status)}</td>
+          <td class="text-right"><div class="flex justify-end gap-2"><button class="action-btn">Edit</button><button class="action-btn action-btn-danger">Delete</button></div></td>
+        </tr>
+      `).join('')
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-pewter py-8">No projects match your search.</td></tr>'
+            }
+        }
+
+        function renderAllBlog(filter = '') {
+            const tbody = document.querySelector('#all-blog-table tbody')
+            const filtered = blogPosts.filter(p => {
+                const q = filter.toLowerCase()
+                return !q || [p.title, p.category].join(' ').toLowerCase().includes(q)
+            })
+            tbody.innerHTML = filtered.map(p => `
+        <tr>
+          <td class="font-medium text-white">${p.title}</td>
+          <td>${p.category}</td>
+          <td>${formatDate(p.date)}</td>
+          <td>${p.readingTime}</td>
+          <td class="text-right"><div class="flex justify-end gap-2"><button class="action-btn">Edit</button><button class="action-btn action-btn-danger">Delete</button></div></td>
+        </tr>
+      `).join('')
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-pewter py-8">No posts match your search.</td></tr>'
+            }
+        }
+
+        function renderMessages() {
+            const list = document.getElementById('messages-list')
+            list.innerHTML = messages.map(m => `
+        <div class="chart-card p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${!m.read ? 'border-l-2 !border-l-emerald-400/60' : ''}">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-sm font-medium text-white truncate">${m.from}</p>
+              ${!m.read ? '<span class="h-2 w-2 rounded-full bg-emerald-400 shrink-0"></span>' : ''}
+            </div>
+            <p class="text-sm text-white/70 truncate">${m.subject}</p>
+            <p class="text-[11px] text-pewter mt-1">${m.email} · ${m.time}</p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <button class="action-btn">Reply</button>
+            <button class="action-btn action-btn-danger">Delete</button>
+          </div>
+        </div>
+      `).join('')
+        }
+
+        function filterProjectsTable(val) { renderAllProjects(val) }
+        function filterBlogTable(val) { renderAllBlog(val) }
+
+        /* ── Init ── */
+        renderRecentProjects()
+        renderRecentPosts()
+        renderAllProjects()
+        renderAllBlog()
+        renderMessages()
+
+        /* ── Views chart ── */
+        function drawChart(data, labels) {
+            const canvas = document.getElementById('views-chart')
+            if (!canvas) return
+            const ctx = canvas.getContext('2d')
+            const dpr = window.devicePixelRatio || 1
+            const rect = canvas.getBoundingClientRect()
+            canvas.width = rect.width * dpr
+            canvas.height = rect.height * dpr
+            ctx.scale(dpr, dpr)
+
+            const w = rect.width, h = rect.height
+            const pad = { top: 10, right: 10, bottom: 30, left: 45 }
+            const chartW = w - pad.left - pad.right
+            const chartH = h - pad.top - pad.bottom
+
+            const max = Math.max(...data) * 1.15
+            const xStep = chartW / (data.length - 1)
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(255,255,255,0.04)'
+            ctx.lineWidth = 1
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + (chartH / 4) * i
+                ctx.beginPath()
+                ctx.moveTo(pad.left, y)
+                ctx.lineTo(w - pad.right, y)
+                ctx.stroke()
+                // Label
+                ctx.fillStyle = 'rgba(155,161,166,0.5)'
+                ctx.font = '10px Inter'
+                ctx.textAlign = 'right'
+                ctx.fillText(Math.round(max - (max / 4) * i), pad.left - 8, y + 3)
+            }
+
+            // X labels
+            ctx.fillStyle = 'rgba(155,161,166,0.5)'
+            ctx.font = '10px Inter'
+            ctx.textAlign = 'center'
+            labels.forEach((l, i) => {
+                ctx.fillText(l, pad.left + xStep * i, h - 8)
+            })
+
+            // Points
+            const points = data.map((val, i) => ({
+                x: pad.left + xStep * i,
+                y: pad.top + chartH - (val / max) * chartH,
+            }))
+
+            // Gradient fill
+            const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH)
+            gradient.addColorStop(0, 'rgba(74, 222, 128, 0.15)')
+            gradient.addColorStop(1, 'rgba(74, 222, 128, 0)')
+            ctx.beginPath()
+            ctx.moveTo(points[0].x, pad.top + chartH)
+            points.forEach(p => ctx.lineTo(p.x, p.y))
+            ctx.lineTo(points[points.length - 1].x, pad.top + chartH)
+            ctx.closePath()
+            ctx.fillStyle = gradient
+            ctx.fill()
+
+            // Line
+            ctx.beginPath()
+            points.forEach((p, i) => { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y) })
+            ctx.strokeStyle = '#4ade80'
+            ctx.lineWidth = 2
+            ctx.lineJoin = 'round'
+            ctx.lineCap = 'round'
+            ctx.stroke()
+
+            // Dots
+            points.forEach(p => {
+                ctx.beginPath()
+                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
+                ctx.fillStyle = '#0a0a0b'
+                ctx.fill()
+                ctx.beginPath()
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2)
+                ctx.fillStyle = '#4ade80'
+                ctx.fill()
+            })
+        }
+
+        const chartData7d = [820, 1240, 980, 1560, 2100, 1890, 2340]
+        const chartLabels7d = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        const chartData30d = [620, 780, 920, 1100, 980, 1340, 1200, 1450, 1380, 1600, 1520, 1780, 1900, 2100, 1950, 2200, 2080, 2350, 2100, 1980, 2400, 2500, 2300, 2650, 2800, 2700, 2900, 3100, 2950, 3200]
+        const chartLabels30d = Array.from({ length: 30 }, (_, i) => (i + 1) % 5 === 0 || i === 0 ? `D${i + 1}` : '')
+
+        function setChartRange(range) {
+            if (range === '30d') drawChart(chartData30d, chartLabels30d)
+            else drawChart(chartData7d, chartLabels7d)
+        }
+
+        drawChart(chartData7d, chartLabels7d)
+        window.addEventListener('resize', () => drawChart(chartData7d, chartLabels7d))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Add Blog Post — Bagas Pardana Ilham's Personal Sanctuary" />
+    <meta name="author" content="Bagas Pardana Ilham" />
+    <title>Add Blog Post — Personal Sanctuary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ebony: '#0f0f0f',
+                        mist: '#f5f5f0',
+                        pewter: '#9ba1a6',
+                        surface: '#111113',
+                        'surface-2': '#18181b',
+                        'surface-3': '#1e1e22',
+                    },
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                        body: ['"Inter"', 'system-ui', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            color: #f5f5f0;
+            background-color: #0a0a0b;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #0a0a0b;
+        }
+
+        ::selection {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2e;
+            border-radius: 999px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .d1 {
+            animation-delay: 50ms;
+        }
+
+        .d2 {
+            animation-delay: 100ms;
+        }
+
+        .d3 {
+            animation-delay: 150ms;
+        }
+
+        .d4 {
+            animation-delay: 200ms;
+        }
+
+        .d5 {
+            animation-delay: 250ms;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            color: #9ba1a6;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Form styles */
+        .form-input {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            padding: 0.625rem 1rem;
+            color: #f5f5f0;
+            font-size: 0.875rem;
+            outline: none;
+            transition: all 0.2s;
+            width: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .form-input::placeholder {
+            color: rgba(155, 161, 166, 0.5);
+        }
+
+        .form-input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.03);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9ba1a6;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ba1a6' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.5rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.25rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(59, 130, 246, 0.15));
+            border-color: rgba(74, 222, 128, 0.25);
+            color: #4ade80;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.3), rgba(59, 130, 246, 0.2));
+            border-color: rgba(74, 222, 128, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.1);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f5f5f0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #9ba1a6;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f5f5f0;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        /* Content block */
+        .content-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .content-block:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .content-block .drag-handle {
+            cursor: grab;
+            color: rgba(155, 161, 166, 0.4);
+            transition: color 0.2s;
+        }
+
+        .content-block:hover .drag-handle {
+            color: rgba(155, 161, 166, 0.7);
+        }
+
+        /* Block type badge */
+        .block-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.5rem;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .block-type-paragraph {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+
+        .block-type-quote {
+            background: rgba(167, 139, 250, 0.1);
+            color: #a78bfa;
+        }
+
+        .block-type-list {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+
+        /* Add block button */
+        .add-block-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.8125rem;
+            color: #9ba1a6;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .add-block-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        /* Dropdown menu */
+        .block-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0.5rem;
+            background: #18181b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.375rem;
+            min-width: 200px;
+            z-index: 20;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(-4px);
+            pointer-events: none;
+            transition: all 0.15s ease;
+        }
+
+        .block-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .block-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.8125rem;
+            color: #c4c8cc;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: left;
+        }
+
+        .block-dropdown button:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        /* Preview: warm journal */
+        .warm-journal-bg {
+            position: relative;
+            background: linear-gradient(160deg, rgba(49, 31, 19, 0.95), rgba(89, 52, 34, 0.85), rgba(15, 10, 5, 0.95));
+        }
+
+        .warm-journal-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 191, 132, 0.35), transparent 55%),
+                radial-gradient(circle at 70% 0%, rgba(255, 234, 214, 0.18), transparent 40%);
+            opacity: 0.8;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .preview-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(155, 161, 166, 0.5);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .toast-success {
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid rgba(74, 222, 128, 0.25);
+            color: #4ade80;
+            backdrop-filter: blur(16px);
+        }
+
+        /* List item row */
+        .list-item-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .list-item-row input {
+            flex: 1;
+        }
+
+        .remove-list-item {
+            padding: 0.375rem;
+            border-radius: 0.5rem;
+            color: #9ba1a6;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .remove-list-item:hover {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+        }
+
+        /* Responsive preview split */
+        @media (min-width: 1280px) {
+            .editor-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                align-items: start;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#0a0a0b] text-mist font-body">
+
+    <!-- Mobile overlay -->
+    <div id="sidebar-overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast toast-success">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <span id="toast-message">Post published successfully!</span>
+        </div>
+    </div>
+
+    <div class="flex min-h-screen">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside id="sidebar"
+            class="sidebar fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-white/5 bg-[#0c0c0e] p-5 lg:relative lg:translate-x-0">
+
+            <!-- Logo -->
+            <div class="mb-8">
+                <p class="text-[9px] uppercase tracking-[0.4em] text-pewter">Admin Panel</p>
+                <h1 class="font-display text-xl text-white mt-1">Sanctuary</h1>
+            </div>
+
+            <!-- Nav -->
+            <nav class="flex-1 space-y-1">
+                <a href="admin.html" class="sidebar-link" data-section="dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="5" rx="1.5" />
+                        <rect x="14" y="12" width="7" height="9" rx="1.5" />
+                        <rect x="3" y="16" width="7" height="5" rx="1.5" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="admin.html#projects" class="sidebar-link" data-section="projects">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M2 9.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+                    </svg>
+                    Projects
+                </a>
+                <a href="admin.html#blog" class="sidebar-link active" data-section="blog">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9" />
+                        <path
+                            d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+                    </svg>
+                    Blog Posts
+                </a>
+                <a href="admin.html#messages" class="sidebar-link" data-section="messages">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    Messages
+                </a>
+
+                <div class="my-4 h-px bg-white/5"></div>
+
+                <a href="admin.html#settings" class="sidebar-link" data-section="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+
+            <!-- Back to site -->
+            <div class="mt-auto pt-4 border-t border-white/5">
+                <a href="index.html" class="sidebar-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 19-7-7 7-7" />
+                        <path d="M19 12H5" />
+                    </svg>
+                    Back to site
+                </a>
+            </div>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <div class="flex flex-1 flex-col min-w-0">
+
+            <!-- Top bar -->
+            <header
+                class="flex items-center justify-between border-b border-white/5 bg-[#0a0a0b]/80 px-6 py-4 backdrop-blur-md sticky top-0 z-30 lg:px-8">
+                <!-- Mobile hamburger -->
+                <button id="hamburger"
+                    class="lg:hidden p-2 -ml-2 rounded-lg text-pewter hover:text-white hover:bg-white/5 transition"
+                    onclick="toggleSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+
+                <h2 class="font-display text-lg text-white hidden lg:block">Add Blog Post</h2>
+
+                <div class="flex items-center gap-4 ml-auto">
+                    <!-- Avatar -->
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="h-8 w-8 rounded-full bg-gradient-to-br from-white/15 to-white/5 flex items-center justify-center text-xs font-medium text-white">
+                            BP
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm text-white font-medium leading-none">Bagas P.</p>
+                            <p class="text-[11px] text-pewter mt-0.5">Admin</p>
+                        </div>
+                    </div>
+                    <!-- Logout -->
+                    <a href="login.html" class="btn btn-ghost text-[11px] hidden sm:inline-flex py-1.5 px-3">Logout</a>
+                </div>
+            </header>
+
+            <!-- Page content -->
+            <main class="flex-1 overflow-y-auto p-6 lg:p-8">
+
+                <!-- Page header -->
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 opacity-0 animate-in d1">
+                    <div>
+                        <div class="flex items-center gap-3 mb-1">
+                            <a href="admin.html#blog"
+                                class="text-pewter hover:text-white transition inline-flex items-center gap-1.5 text-sm group">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" class="transition-transform group-hover:-translate-x-0.5">
+                                    <path d="m12 19-7-7 7-7" />
+                                    <path d="M19 12H5" />
+                                </svg>
+                                Blog Posts
+                            </a>
+                            <span class="text-white/10">/</span>
+                            <span class="text-sm text-white/70">New Post</span>
+                        </div>
+                        <h3 class="font-display text-2xl text-white">Compose New Post</h3>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button class="btn btn-ghost" onclick="saveDraft()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+                                <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+                                <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+                            </svg>
+                            Save Draft
+                        </button>
+                        <button class="btn btn-primary" onclick="publishPost()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M12 20h9" />
+                                <path
+                                    d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+                            </svg>
+                            Publish Post
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Editor + Preview grid -->
+                <div class="editor-grid">
+
+                    <!-- ══ FORM PANEL ══ -->
+                    <div class="space-y-6">
+
+                        <!-- Metadata card -->
+                        <div class="card p-6 opacity-0 animate-in d2">
+                            <p class="text-xs uppercase tracking-widest text-pewter mb-5">Post Details</p>
+
+                            <div class="space-y-5">
+                                <!-- Title -->
+                                <div>
+                                    <label for="post-title" class="form-label">Title</label>
+                                    <input type="text" id="post-title" class="form-input"
+                                        placeholder="e.g. Latency Études" oninput="updatePreview()" />
+                                </div>
+
+                                <!-- Category & Date row -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="post-category" class="form-label">Category</label>
+                                        <select id="post-category" class="form-input form-select"
+                                            onchange="updatePreview()">
+                                            <option value="">Select category</option>
+                                            <option value="IT">IT</option>
+                                            <option value="Life">Life</option>
+                                            <option value="Travel">Travel</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="post-date" class="form-label">Publish Date</label>
+                                        <input type="date" id="post-date" class="form-input"
+                                            onchange="updatePreview()" />
+                                    </div>
+                                </div>
+
+                                <!-- Reading time & Cover -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="post-reading-time" class="form-label">Reading Time</label>
+                                        <input type="text" id="post-reading-time" class="form-input"
+                                            placeholder="e.g. 8 min" oninput="updatePreview()" />
+                                    </div>
+                                    <div>
+                                        <label for="post-cover" class="form-label">Cover Image URL</label>
+                                        <input type="url" id="post-cover" class="form-input"
+                                            placeholder="https://images.unsplash.com/..." oninput="updatePreview()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content blocks card -->
+                        <div class="card p-6 opacity-0 animate-in d3">
+                            <div class="flex items-center justify-between mb-5">
+                                <p class="text-xs uppercase tracking-widest text-pewter">Content Blocks</p>
+                                <span id="block-count" class="text-[11px] text-pewter/60">0 blocks</span>
+                            </div>
+
+                            <div id="content-blocks" class="space-y-4">
+                                <!-- Blocks inserted dynamically -->
+                            </div>
+
+                            <!-- Add block button -->
+                            <div class="relative mt-4" id="add-block-container">
+                                <button class="add-block-btn" onclick="toggleBlockMenu()" id="add-block-trigger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M8 12h8" />
+                                        <path d="M12 8v8" />
+                                    </svg>
+                                    Add content block
+                                </button>
+                                <div class="block-dropdown" id="block-menu">
+                                    <button onclick="addBlock('paragraph')">
+                                        <span class="block-type-badge block-type-paragraph">¶</span>
+                                        Paragraph
+                                    </button>
+                                    <button onclick="addBlock('quote')">
+                                        <span class="block-type-badge block-type-quote">"</span>
+                                        Quote
+                                    </button>
+                                    <button onclick="addBlock('list')">
+                                        <span class="block-type-badge block-type-list">≡</span>
+                                        List
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ PREVIEW PANEL ══ -->
+                    <div class="opacity-0 animate-in d4">
+                        <div class="card overflow-hidden sticky top-[73px]">
+                            <div class="px-5 py-4 border-b border-white/5 flex items-center justify-between">
+                                <p class="text-xs uppercase tracking-widest text-pewter">Live Preview</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="h-2 w-2 rounded-full bg-emerald-400/60 animate-pulse"></span>
+                                    <span class="text-[10px] text-pewter/60">Real-time</span>
+                                </div>
+                            </div>
+
+                            <div id="preview-content" class="max-h-[calc(100vh-140px)] overflow-y-auto">
+                                <!-- Preview rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        /* ── State ── */
+        let contentBlocks = []
+        let blockIdCounter = 0
+
+        /* ── Sidebar ── */
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar')
+            const overlay = document.getElementById('sidebar-overlay')
+            sidebar.classList.toggle('-translate-x-full')
+            overlay.classList.toggle('active')
+        }
+
+        /* ── Set today as default date ── */
+        document.getElementById('post-date').value = new Date().toISOString().split('T')[0]
+
+        /* ── Block menu ── */
+        function toggleBlockMenu() {
+            const menu = document.getElementById('block-menu')
+            menu.classList.toggle('show')
+        }
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('block-menu')
+            const trigger = document.getElementById('add-block-trigger')
+            if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+                menu.classList.remove('show')
+            }
+        })
+
+        /* ── Add content block ── */
+        function addBlock(type) {
+            const id = ++blockIdCounter
+            contentBlocks.push({ id, type, text: '', items: [''] })
+            toggleBlockMenu()
+            renderBlocks()
+            updatePreview()
+        }
+
+        /* ── Remove content block ── */
+        function removeBlock(id) {
+            contentBlocks = contentBlocks.filter(b => b.id !== id)
+            renderBlocks()
+            updatePreview()
+        }
+
+        /* ── Move block up/down ── */
+        function moveBlock(id, direction) {
+            const idx = contentBlocks.findIndex(b => b.id === id)
+            if (idx < 0) return
+            const newIdx = idx + direction
+            if (newIdx < 0 || newIdx >= contentBlocks.length) return
+            const temp = contentBlocks[idx]
+            contentBlocks[idx] = contentBlocks[newIdx]
+            contentBlocks[newIdx] = temp
+            renderBlocks()
+            updatePreview()
+        }
+
+        /* ── Add list item ── */
+        function addListItem(blockId) {
+            const block = contentBlocks.find(b => b.id === blockId)
+            if (block) {
+                block.items.push('')
+                renderBlocks()
+            }
+        }
+
+        /* ── Remove list item ── */
+        function removeListItem(blockId, itemIdx) {
+            const block = contentBlocks.find(b => b.id === blockId)
+            if (block && block.items.length > 1) {
+                block.items.splice(itemIdx, 1)
+                renderBlocks()
+                updatePreview()
+            }
+        }
+
+        /* ── Update block text content ── */
+        function updateBlockText(id, value) {
+            const block = contentBlocks.find(b => b.id === id)
+            if (block) block.text = value
+            updatePreview()
+        }
+
+        /* ── Update list item ── */
+        function updateListItem(blockId, itemIdx, value) {
+            const block = contentBlocks.find(b => b.id === blockId)
+            if (block) block.items[itemIdx] = value
+            updatePreview()
+        }
+
+        /* ── Render all blocks ── */
+        function renderBlocks() {
+            const container = document.getElementById('content-blocks')
+            document.getElementById('block-count').textContent = `${contentBlocks.length} block${contentBlocks.length !== 1 ? 's' : ''}`
+
+            container.innerHTML = contentBlocks.map((block, idx) => {
+                const isFirst = idx === 0
+                const isLast = idx === contentBlocks.length - 1
+
+                let typeLabel, typeBadgeClass, inputHTML
+
+                switch (block.type) {
+                    case 'paragraph':
+                        typeLabel = 'Paragraph'
+                        typeBadgeClass = 'block-type-paragraph'
+                        inputHTML = `<textarea class="form-input form-textarea mt-3" placeholder="Write your paragraph here…"
+                            oninput="updateBlockText(${block.id}, this.value)">${block.text}</textarea>`
+                        break
+                    case 'quote':
+                        typeLabel = 'Quote'
+                        typeBadgeClass = 'block-type-quote'
+                        inputHTML = `<textarea class="form-input form-textarea mt-3" placeholder="Write an inspiring quote…"
+                            oninput="updateBlockText(${block.id}, this.value)" style="min-height:70px; font-style:italic">${block.text}</textarea>`
+                        break
+                    case 'list':
+                        typeLabel = 'List'
+                        typeBadgeClass = 'block-type-list'
+                        inputHTML = `
+                            <div class="space-y-2 mt-3">
+                                ${block.items.map((item, i) => `
+                                    <div class="list-item-row">
+                                        <span class="text-[11px] text-pewter/40 w-5 text-center shrink-0">${i + 1}.</span>
+                                        <input type="text" class="form-input" placeholder="List item…" value="${escapeAttr(item)}"
+                                            oninput="updateListItem(${block.id}, ${i}, this.value)" />
+                                        <button class="remove-list-item" onclick="removeListItem(${block.id}, ${i})" title="Remove item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                                <button class="add-block-btn text-xs !py-2 !border-none !bg-transparent hover:!bg-white/5"
+                                    onclick="addListItem(${block.id})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                        <path d="M8 12h8"/><path d="M12 8v8"/>
+                                    </svg>
+                                    Add item
+                                </button>
+                            </div>`
+                        break
+                }
+
+                return `
+                    <div class="content-block" data-block-id="${block.id}">
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="flex items-center gap-2">
+                                <span class="drag-handle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                        <circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/>
+                                        <circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/>
+                                        <circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/>
+                                    </svg>
+                                </span>
+                                <span class="block-type-badge ${typeBadgeClass}">${typeLabel}</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button class="remove-list-item" onclick="moveBlock(${block.id}, -1)" title="Move up" ${isFirst ? 'disabled style="opacity:0.3;pointer-events:none"' : ''}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m18 15-6-6-6 6"/></svg>
+                                </button>
+                                <button class="remove-list-item" onclick="moveBlock(${block.id}, 1)" title="Move down" ${isLast ? 'disabled style="opacity:0.3;pointer-events:none"' : ''}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+                                </button>
+                                <button class="remove-list-item" onclick="removeBlock(${block.id})" title="Remove block">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                        <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        ${inputHTML}
+                    </div>`
+            }).join('')
+        }
+
+        /* ── Escape attribute helper ── */
+        function escapeAttr(str) {
+            return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        }
+
+        /* ── Format date ── */
+        function formatDatePreview(d) {
+            if (!d) return ''
+            return new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        }
+
+        /* ── Update live preview ── */
+        function updatePreview() {
+            const title = document.getElementById('post-title').value.trim()
+            const category = document.getElementById('post-category').value
+            const date = document.getElementById('post-date').value
+            const readingTime = document.getElementById('post-reading-time').value.trim()
+            const coverImage = document.getElementById('post-cover').value.trim()
+
+            const previewEl = document.getElementById('preview-content')
+
+            // If nothing filled, show empty state
+            if (!title && !category && contentBlocks.length === 0) {
+                previewEl.innerHTML = `
+                    <div class="preview-empty">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                            class="mx-auto mb-4 opacity-30">
+                            <path d="M12 20h9"/>
+                            <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/>
+                        </svg>
+                        <p class="text-sm">Start writing to see a live preview</p>
+                        <p class="text-xs mt-1 opacity-60">Your post will appear here in real-time</p>
+                    </div>`
+                return
+            }
+
+            // Build cover image HTML
+            const coverHTML = coverImage ? `
+                <div class="relative overflow-hidden" style="height: 200px;">
+                    <img src="${coverImage}" alt="Cover" class="h-full w-full object-cover"
+                        style="mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);"
+                        onerror="this.parentElement.style.display='none'" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1a0f08] via-transparent to-transparent"></div>
+                </div>` : ''
+
+            // Build content blocks
+            const blocksHTML = contentBlocks.map(block => {
+                switch (block.type) {
+                    case 'paragraph':
+                        return block.text ? `<p class="text-sm leading-[1.9] text-[#fbe3c8]">${escapeHTML(block.text)}</p>` : ''
+                    case 'quote':
+                        return block.text ? `
+                            <blockquote class="border-l-[3px] border-[#fbe3c8]/40 pl-4 py-1">
+                                <p class="text-sm font-serif italic text-[#fff0dc] leading-relaxed">"${escapeHTML(block.text)}"</p>
+                            </blockquote>` : ''
+                    case 'list':
+                        const items = block.items.filter(i => i.trim())
+                        return items.length ? `
+                            <ul class="list-disc pl-5 space-y-1 text-sm text-[#fbe3c8]">
+                                ${items.map(item => `<li class="leading-relaxed">${escapeHTML(item)}</li>`).join('')}
+                            </ul>` : ''
+                    default:
+                        return ''
+                }
+            }).filter(h => h).join('')
+
+            // Meta info
+            const metaParts = []
+            if (category) metaParts.push(`<span class="rounded-full border border-[#fbe3c8]/25 bg-[#fbe3c8]/10 px-3 py-1 backdrop-blur-sm">${category}</span>`)
+            if (date) metaParts.push(`<span>${formatDatePreview(date)}</span>`)
+            if (readingTime) {
+                if (date) metaParts.push(`<span>·</span>`)
+                metaParts.push(`<span>${escapeHTML(readingTime)} read</span>`)
+            }
+
+            previewEl.innerHTML = `
+                ${coverHTML}
+                <div class="warm-journal-bg overflow-hidden ${coverHTML ? '' : 'rounded-none'}">
+                    <div class="relative z-10 px-5 py-8 sm:px-6">
+                        ${metaParts.length ? `
+                            <div class="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#f9d8ba]">
+                                ${metaParts.join('')}
+                            </div>` : ''}
+
+                        ${title ? `<h2 class="mt-4 font-display text-xl sm:text-2xl text-[#fff4e6] leading-tight">${escapeHTML(title)}</h2>` : ''}
+
+                        ${blocksHTML ? `
+                            <div class="mt-6 mb-2 h-px bg-gradient-to-r from-transparent via-[#fbe3c8]/20 to-transparent"></div>
+                            <div class="space-y-4 mt-6">${blocksHTML}</div>` : ''}
+                    </div>
+                </div>`
+        }
+
+        /* ── Escape HTML helper ── */
+        function escapeHTML(str) {
+            const div = document.createElement('div')
+            div.textContent = str
+            return div.innerHTML
+        }
+
+        /* ── Publish Post ── */
+        function publishPost() {
+            const title = document.getElementById('post-title').value.trim()
+            if (!title) {
+                showToast('Please enter a post title', false)
+                document.getElementById('post-title').focus()
+                return
+            }
+            showToast('Post published successfully!')
+        }
+
+        /* ── Save Draft ── */
+        function saveDraft() {
+            const title = document.getElementById('post-title').value.trim()
+            if (!title) {
+                showToast('Please enter a post title', false)
+                document.getElementById('post-title').focus()
+                return
+            }
+            showToast('Draft saved successfully!')
+        }
+
+        /* ── Toast ── */
+        function showToast(message, success = true) {
+            const toast = document.getElementById('toast')
+            const msg = document.getElementById('toast-message')
+            msg.textContent = message
+            toast.classList.toggle('toast-success', success)
+            toast.classList.add('show')
+            setTimeout(() => toast.classList.remove('show'), 3000)
+        }
+
+        /* ── Init ── */
+        updatePreview()
+    </script>
+</body>
+
+</html>

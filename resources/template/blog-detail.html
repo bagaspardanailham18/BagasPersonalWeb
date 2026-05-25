@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Blog post — Bagas Pardana Ilham's Personal Sanctuary" />
+    <meta name="author" content="Bagas Pardana Ilham" />
+    <title>Journal — Personal Sanctuary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ebony: '#0f0f0f',
+                        mist: '#f5f5f0',
+                        pewter: '#9ba1a6',
+                    },
+                    fontFamily: {
+                        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        body: ['"Inter"', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        soft: '0 20px 45px rgb(0 0 0 / 0.35)',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            color: #f5f5f0;
+            background-color: #050505;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #050505;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 20%, rgba(88, 214, 141, 0.12), transparent 45%),
+                radial-gradient(circle at 80% 0%, rgba(103, 172, 255, 0.08), transparent 40%),
+                linear-gradient(120deg, rgba(3, 30, 15, 0.65), rgba(5, 5, 5, 0.9));
+            filter: blur(0px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: repeating-linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.02),
+                    rgba(255, 255, 255, 0.02) 1px,
+                    transparent 1px,
+                    transparent 2px),
+                radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        ::selection {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #101010;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 999px;
+        }
+
+        .warm-journal-bg {
+            position: relative;
+            background: linear-gradient(160deg, rgba(49, 31, 19, 0.95), rgba(89, 52, 34, 0.85), rgba(15, 10, 5, 0.95));
+        }
+
+        .warm-journal-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 191, 132, 0.35), transparent 55%),
+                radial-gradient(circle at 70% 0%, rgba(255, 234, 214, 0.18), transparent 40%);
+            opacity: 0.8;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .hero-image {
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-5 {
+            animation-delay: 0.5s;
+        }
+
+        .prose-warm blockquote {
+            border-left: 3px solid rgba(253, 239, 222, 0.4);
+            padding-left: 1.5rem;
+            font-style: italic;
+            color: #fff0dc;
+        }
+
+        .prose-warm ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: #fbe3c8;
+        }
+
+        .prose-warm ul li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-[#050505] text-mist">
+    <div class="min-h-screen bg-[#050505] font-body">
+        <canvas id="meteor-shower" class="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-40"></canvas>
+        <div class="relative z-10">
+
+            <!-- Header -->
+            <header
+                class="sticky top-0 z-20 mx-auto flex max-w-6xl flex-col items-start gap-4 border-b border-white/5 bg-[#050505]/85 px-6 pt-8 pb-6 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-10 sm:pt-12 sm:pb-10 lg:px-12">
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.35em] text-pewter sm:text-xs">Bagas Pardana Ilham's</p>
+                    <h1 class="font-display text-2xl text-white sm:text-4xl">Personal Sanctuary</h1>
+                </div>
+                <nav
+                    class="flex w-full flex-wrap items-center gap-4 text-xs uppercase tracking-[0.3em] text-pewter sm:w-auto sm:gap-6 sm:text-sm">
+                    <a href="index.html" class="hover:text-white">Home</a>
+                    <a href="index.html#projects" class="hover:text-white">Projects</a>
+                    <a href="index.html#blog" class="hover:text-white">Blog</a>
+                </nav>
+            </header>
+
+            <!-- Main content rendered by JS -->
+            <div id="blog-detail-content" class="relative z-10 mx-auto max-w-6xl px-6 pb-20 sm:px-10 lg:px-12">
+            </div>
+
+            <!-- Footer -->
+            <footer
+                class="relative z-10 mx-auto max-w-6xl border-t border-white/5 px-6 pt-8 pb-12 text-[10px] text-pewter sm:text-sm sm:px-10 lg:px-12">
+                <div class="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
+                    <p>© <span id="current-year"></span> Bagas Pardana Ilham. Built with pure HTML + Tailwind.</p>
+                    <a href="mailto:hello@bagas.studio"
+                        class="text-white transition hover:text-pewter">hello@bagas.studio</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        /* ── Data (shared with index.html) ── */
+        const blogPosts = [
+            {
+                id: 'latency-etudes',
+                title: 'Latency Études',
+                category: 'IT',
+                date: '2025-01-14',
+                readingTime: '8 min',
+                coverImage:
+                    'https://images.unsplash.com/photo-1454922915609-78549ad709bb?auto=format&fit=crop&w=1600&q=80',
+                content: [
+                    {
+                        type: 'paragraph',
+                        text: 'Optimizing edge functions lately has felt like practicing piano etudes—slow, repeatable, attentive to the tiniest resonance.',
+                    },
+                    {
+                        type: 'quote',
+                        text: 'Every millisecond carries a mood.',
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'I layered observability tracks with OpenTelemetry and could finally hear where requests were losing their pulse.',
+                    },
+                ],
+            },
+            {
+                id: 'running-in-silence',
+                title: 'Running in Silence',
+                category: 'Life',
+                date: '2024-11-02',
+                readingTime: '5 min',
+                coverImage:
+                    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1600&q=80',
+                content: [
+                    {
+                        type: 'paragraph',
+                        text: 'Jakarta at dawn is never fully quiet, yet the rhythm of shoes on asphalt becomes a metronome I can trust.',
+                    },
+                    {
+                        type: 'list',
+                        items: ['breath in 4 beats', 'hold in 2', 'release in 6'],
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'Those breath equations spill into how I scope projects and negotiate consulting timelines.',
+                    },
+                ],
+            },
+            {
+                id: 'graph-trails',
+                title: 'Graph Trails for Creative Briefs',
+                category: 'IT',
+                date: '2024-09-19',
+                readingTime: '7 min',
+                coverImage:
+                    'https://images.unsplash.com/photo-1451188502541-13943edb6acb?auto=format&fit=crop&w=1600&q=80',
+                content: [
+                    {
+                        type: 'paragraph',
+                        text: 'I prototyped a graph database to help clients understand creative dependencies with the clarity of a hiking map.',
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'The biggest win was reducing kickoff meetings from 5 calls to 2, simply by letting the map explain the effort.',
+                    },
+                ],
+            },
+            {
+                id: 'kyoto-twilight',
+                title: 'Kyoto Twilight Jog',
+                category: 'Travel',
+                date: '2024-08-04',
+                readingTime: '6 min',
+                coverImage:
+                    'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=80',
+                content: [
+                    {
+                        type: 'paragraph',
+                        text: 'I ran along the Kamo River with temple bells marking kilometers—a different kind of pace chart.',
+                    },
+                    {
+                        type: 'quote',
+                        text: 'Every bridge felt like a commit checkpoint.',
+                    },
+                ],
+            },
+        ]
+
+        /* ── Helpers ── */
+        document.getElementById('current-year').textContent = new Date().getFullYear()
+
+        const formatDate = (dateString) =>
+            new Date(dateString).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+            })
+
+        const getIdFromUrl = () => new URLSearchParams(window.location.search).get('id')
+
+        const renderContentBlock = (block) => {
+            switch (block.type) {
+                case 'paragraph':
+                    return `<p class="text-base sm:text-lg leading-[1.9] text-[#fbe3c8]">${block.text}</p>`
+                case 'quote':
+                    return `
+            <blockquote class="border-l-[3px] border-[#fbe3c8]/40 pl-6 py-2 my-2">
+              <p class="text-lg sm:text-xl font-serif italic text-[#fff0dc] leading-relaxed">"${block.text}"</p>
+            </blockquote>`
+                case 'list':
+                    return `
+            <ul class="list-disc pl-6 space-y-2 text-base sm:text-lg text-[#fbe3c8]">
+              ${block.items.map(item => `<li class="leading-relaxed">${item}</li>`).join('')}
+            </ul>`
+                default:
+                    return ''
+            }
+        }
+
+        const renderNotFound = () => {
+            document.title = 'Post not found — Personal Sanctuary'
+            document.getElementById('blog-detail-content').innerHTML = `
+        <div class="flex flex-col items-center justify-center py-32 text-center opacity-0 animate-fade-in-up">
+          <p class="text-6xl font-display text-white/20 mb-4">404</p>
+          <h2 class="font-display text-2xl text-white mb-3">Post not found</h2>
+          <p class="text-pewter mb-8 max-w-md">The journal entry you're looking for doesn't exist or may have been moved.</p>
+          <a href="index.html#blog"
+            class="rounded-full border border-white/20 px-6 py-3 text-xs uppercase tracking-[0.3em] text-white transition hover:bg-white hover:text-black">
+            ← Back to journal
+          </a>
+        </div>
+      `
+        }
+
+        const renderBlogDetail = (post) => {
+            document.title = `${post.title} — Personal Sanctuary`
+
+            const metaDesc = document.querySelector('meta[name="description"]')
+            if (metaDesc) {
+                const firstParagraph = post.content.find(b => b.type === 'paragraph')
+                if (firstParagraph) metaDesc.setAttribute('content', firstParagraph.text)
+            }
+
+            const contentHTML = post.content.map(renderContentBlock).join('')
+
+            document.getElementById('blog-detail-content').innerHTML = `
+        <!-- Back link -->
+        <div class="pt-8 sm:pt-12 opacity-0 animate-fade-in-up">
+          <a href="index.html#blog"
+            class="inline-flex items-center gap-2 text-sm text-pewter transition hover:text-white group">
+            <span class="inline-block transition-transform group-hover:-translate-x-1">←</span>
+            Back to journal
+          </a>
+        </div>
+
+        <!-- Hero image -->
+        <div class="mt-8 relative overflow-hidden rounded-[2.5rem] border border-[#fbe3c8]/10 shadow-soft opacity-0 animate-fade-in-up delay-1">
+          <div class="relative h-[300px] sm:h-[400px] lg:h-[460px] overflow-hidden">
+            <img
+              src="${post.coverImage}"
+              alt="${post.title} cover"
+              class="h-full w-full object-cover hero-image"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/30 to-transparent"></div>
+          </div>
+        </div>
+
+        <!-- Article wrapper with warm journal background -->
+        <article class="mt-10 sm:mt-14 warm-journal-bg rounded-[2.5rem] border border-[#fbe3c8]/10 overflow-hidden opacity-0 animate-fade-in-up delay-2">
+          <div class="relative z-10 px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-16">
+
+            <!-- Meta info -->
+            <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-[#f9d8ba] opacity-0 animate-fade-in-up delay-3">
+              <span class="rounded-full border border-[#fbe3c8]/25 bg-[#fbe3c8]/10 px-4 py-1.5 backdrop-blur-sm">${post.category}</span>
+              <span>${formatDate(post.date)}</span>
+              <span>·</span>
+              <span>${post.readingTime} read</span>
+            </div>
+
+            <!-- Title -->
+            <h2 class="mt-6 font-display text-3xl sm:text-4xl lg:text-5xl text-[#fff4e6] leading-tight opacity-0 animate-fade-in-up delay-3">
+              ${post.title}
+            </h2>
+
+            <!-- Divider -->
+            <div class="mt-8 mb-10 h-px bg-gradient-to-r from-transparent via-[#fbe3c8]/20 to-transparent"></div>
+
+            <!-- Content blocks -->
+            <div class="space-y-6 max-w-3xl opacity-0 animate-fade-in-up delay-4">
+              ${contentHTML}
+            </div>
+
+            <!-- Bottom divider -->
+            <div class="mt-12 mb-8 h-px bg-gradient-to-r from-transparent via-[#fbe3c8]/20 to-transparent"></div>
+
+            <!-- Footer actions -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 opacity-0 animate-fade-in-up delay-5">
+              <a href="index.html#blog"
+                class="inline-flex items-center gap-2 text-sm text-[#fbe3c8] transition hover:text-white group">
+                <span class="inline-block transition-transform group-hover:-translate-x-1">←</span>
+                Back to journal
+              </a>
+              <a href="mailto:hello@bagas.studio?subject=${encodeURIComponent(post.title)}"
+                class="rounded-full border border-[#fbe3c8]/30 px-6 py-3 text-center text-xs uppercase tracking-[0.3em] text-[#fff4e6] transition hover:bg-[#fbe3c8]/10 hover:border-[#fbe3c8]/50">
+                Share thoughts via email
+              </a>
+            </div>
+          </div>
+        </article>
+      `
+        }
+
+        /* ── Init ── */
+        const postId = getIdFromUrl()
+        const post = blogPosts.find(p => p.id === postId)
+
+        if (post) {
+            renderBlogDetail(post)
+        } else {
+            renderNotFound()
+        }
+
+        /* ── Meteor Shower Animation ── */
+        const canvas = document.getElementById('meteor-shower')
+        const ctx = canvas.getContext('2d')
+        let width, height
+        let meteors = []
+
+        const initCanvas = () => {
+            width = window.innerWidth
+            height = window.innerHeight
+            canvas.width = width
+            canvas.height = height
+        }
+
+        window.addEventListener('resize', initCanvas)
+        initCanvas()
+
+        class Meteor {
+            constructor() { this.reset() }
+
+            reset() {
+                if (Math.random() > 0.5) {
+                    this.x = Math.random() * width
+                    this.y = -100
+                } else {
+                    this.x = -100
+                    this.y = Math.random() * (height * 0.5)
+                }
+                this.length = Math.random() * 150 + 80
+                this.speed = Math.random() * 10 + 4
+                this.angle = (Math.PI / 180) * (Math.random() * 10 + 35)
+                this.opacity = Math.random() * 0.4 + 0.1
+                this.thickness = Math.random() * 2.5 + 1.5
+                this.active = false
+                setTimeout(() => { this.active = true }, Math.random() * 5000)
+            }
+
+            update() {
+                if (!this.active) return
+                this.x += this.speed * Math.cos(this.angle)
+                this.y += this.speed * Math.sin(this.angle)
+                if (this.x > width + 200 || this.y > height + 200) {
+                    this.active = false
+                    setTimeout(() => { this.reset(); this.active = true }, Math.random() * 4000 + 1000)
+                }
+            }
+
+            draw() {
+                if (!this.active) return
+                const tailX = this.x - this.length * Math.cos(this.angle)
+                const tailY = this.y - this.length * Math.sin(this.angle)
+                const gradient = ctx.createLinearGradient(tailX, tailY, this.x, this.y)
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0)')
+                gradient.addColorStop(0.7, `rgba(255, 255, 255, ${this.opacity * 0.4})`)
+                gradient.addColorStop(1, `rgba(255, 255, 255, ${this.opacity})`)
+                ctx.beginPath()
+                ctx.moveTo(tailX, tailY)
+                ctx.lineTo(this.x, this.y)
+                ctx.strokeStyle = gradient
+                ctx.lineWidth = this.thickness
+                ctx.lineCap = 'round'
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.thickness * 1.5, 0, Math.PI * 2)
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity + 0.15})`
+                ctx.fill()
+            }
+        }
+
+        for (let i = 0; i < 15; i++) { meteors.push(new Meteor()) }
+
+        const animateMeteors = () => {
+            ctx.clearRect(0, 0, width, height)
+            meteors.forEach(m => { m.update(); m.draw() })
+            requestAnimationFrame(animateMeteors)
+        }
+
+        animateMeteors()
+    </script>
+</body>
+
+</html>
