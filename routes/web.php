@@ -5,10 +5,12 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SitemapController;
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/project/{id}', [PublicController::class, 'showProject'])->name('project.show');
 Route::get('/blog/{id}', [PublicController::class, 'showBlog'])->name('blog.show');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

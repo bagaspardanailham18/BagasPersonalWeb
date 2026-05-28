@@ -1,9 +1,61 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import React, { FormEvent, useState } from 'react';
+import TiptapEditor from '../../components/TiptapEditor';
 
 interface Props {
   blog?: any;
 }
+
+const convertBlocksToHtml = (blocks: any[]) => {
+  if (!blocks || !Array.isArray(blocks)) return '';
+  return blocks.map((block) => {
+    if (block.type === 'quote') {
+      return `<blockquote>${block.text}</blockquote>`;
+    } else if (block.type === 'heading') {
+      return `<h2>${block.text}</h2>`;
+    } else if (block.type === 'list') {
+      const items = block.items?.map((item: string) => `<li>${item}</li>`).join('') || '';
+      return `<ul>${items}</ul>`;
+    } else {
+      return `<p>${block.text || ''}</p>`;
+    }
+  }).join('');
+};
+
+const parseHtmlToBlocks = (html: string) => {
+  if (typeof window === 'undefined') {
+    return [{ type: 'paragraph', text: '' }];
+  }
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const blocks: Array<{ type: string; text?: string; items?: string[] }> = [];
+
+  doc.body.childNodes.forEach((node) => {
+    if (node.nodeType !== Node.ELEMENT_NODE) return;
+    const el = node as HTMLElement;
+    const tagName = el.tagName.toLowerCase();
+
+    if (tagName === 'blockquote') {
+      blocks.push({ type: 'quote', text: el.textContent || '' });
+    } else if (tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || tagName === 'h4' || tagName === 'h5' || tagName === 'h6') {
+      blocks.push({ type: 'heading', text: el.textContent || '' });
+    } else if (tagName === 'ul' || tagName === 'ol') {
+      const items: string[] = [];
+      el.querySelectorAll('li').forEach((li) => {
+        items.push(li.textContent || '');
+      });
+      blocks.push({ type: 'list', items });
+    } else {
+      blocks.push({ type: 'paragraph', text: el.textContent || '' });
+    }
+  });
+
+  if (blocks.length === 0) {
+    blocks.push({ type: 'paragraph', text: '' });
+  }
+
+  return blocks;
+};
 
 export default function AddBlog({ blog }: Props) {
   const [imageSource, setImageSource] = useState<'url' | 'upload'>('url');
@@ -18,19 +70,24 @@ export default function AddBlog({ blog }: Props) {
     reading_time: blog?.reading_time || '',
     cover_image: blog?.cover_image || '',
     status: blog?.status || 'Published',
-    content: blog?.content?.[0]?.text || '',
+    content: convertBlocksToHtml(blog?.content) || '',
     date: blog?.date ? new Date(blog.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
   });
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
+    const blocksContent = JSON.stringify(parseHtmlToBlocks(data.content));
     if (blog) {
       router.post(`/admin/blog/${blog.id}`, {
         ...data,
+        content: blocksContent,
         _method: 'PUT',
       } as any);
     } else {
-      post('/admin/blog');
+      router.post('/admin/blog', {
+        ...data,
+        content: blocksContent,
+      } as any);
     }
   };
 
@@ -105,7 +162,7 @@ export default function AddBlog({ blog }: Props) {
                        {errors.title && <div className="text-red-400 text-xs mt-1">{errors.title}</div>}
                     </div>
                     
-                     <div className="grid gap-6 sm:grid-cols-3">
+                     <div className="grid gap-6 sm:grid-cols-2">
                         <div className="space-y-2">
                            <label className="block text-xs uppercase tracking-widest text-pewter">Category</label>
                            <select 
@@ -120,18 +177,6 @@ export default function AddBlog({ blog }: Props) {
                               <option value="Travel">Travel</option>
                            </select>
                            {errors.category && <div className="text-red-400 text-xs mt-1">{errors.category}</div>}
-                        </div>
-                        <div className="space-y-2">
-                           <label className="block text-xs uppercase tracking-widest text-pewter">Reading Time</label>
-                           <input 
-                             type="text" 
-                             value={data.reading_time}
-                             onChange={e => setData('reading_time', e.target.value)}
-                             placeholder="e.g. 5 min" 
-                             className="search-input w-full !pl-4 !rounded-xl" 
-                             required 
-                           />
-                           {errors.reading_time && <div className="text-red-400 text-xs mt-1">{errors.reading_time}</div>}
                         </div>
                         <div className="space-y-2">
                            <label className="block text-xs uppercase tracking-widest text-pewter">Publish Date</label>
@@ -216,14 +261,11 @@ export default function AddBlog({ blog }: Props) {
 
                     <div className="space-y-2">
                        <label className="block text-xs uppercase tracking-widest text-pewter">Content (Markdown supported)</label>
-                       <textarea 
-                         rows={12} 
-                         value={data.content}
-                         onChange={e => setData('content', e.target.value)}
-                         placeholder="Write your thoughts here..." 
-                         className="search-input w-full !pl-4 !rounded-xl resize-none font-serif text-base leading-relaxed"
-                         required
-                       ></textarea>
+                       <TiptapEditor
+                         content={data.content}
+                         onChange={html => setData('content', html)}
+                         placeholder="Write your thoughts here..."
+                       />
                        {errors.content && <div className="text-red-400 text-xs mt-1">{errors.content}</div>}
                     </div>
 

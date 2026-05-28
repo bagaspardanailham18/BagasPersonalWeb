@@ -1,5 +1,6 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import React, { FormEvent, useState } from 'react';
+import TiptapEditor from '../../components/TiptapEditor';
 
 interface Props {
   project?: any;
@@ -222,18 +223,15 @@ export default function AddProject({ project }: Props) {
                          </div>
                      </div>
 
-                    <div className="space-y-2">
-                       <label className="block text-xs uppercase tracking-widest text-pewter">Description</label>
-                       <textarea 
-                         rows={4} 
-                         value={data.description}
-                         onChange={e => setData('description', e.target.value)}
-                         placeholder="Project description..." 
-                         className="search-input w-full !pl-4 !rounded-xl resize-none font-serif text-base leading-relaxed"
-                         required
-                       ></textarea>
-                       {errors.description && <div className="text-red-400 text-xs mt-1">{errors.description}</div>}
-                    </div>
+                     <div className="space-y-2">
+                        <label className="block text-xs uppercase tracking-widest text-pewter">Description</label>
+                        <TiptapEditor
+                          content={data.description}
+                          onChange={html => setData('description', html)}
+                          placeholder="Project description..."
+                        />
+                        {errors.description && <div className="text-red-400 text-xs mt-1">{errors.description}</div>}
+                     </div>
 
                     <div className="flex gap-4 pt-4 border-t border-white/5">
                        <button 

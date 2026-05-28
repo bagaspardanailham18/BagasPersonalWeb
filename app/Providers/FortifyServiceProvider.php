@@ -24,6 +24,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Fortify::loginView(fn () => Inertia::render('auth/login'));
+        Fortify::registerView(fn () => Inertia::render('auth/register'));
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/two-factor-challenge'));
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/confirm-password'));
 

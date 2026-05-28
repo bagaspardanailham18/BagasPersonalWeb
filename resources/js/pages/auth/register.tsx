@@ -20,12 +20,12 @@ export default function Register() {
                     <div className="glow-orb -top-20 -left-20 h-60 w-60 bg-emerald-500/20" style={{ animationDelay: '0s' }}></div>
                     <div className="glow-orb -bottom-20 -right-20 h-72 w-72 bg-blue-500/10" style={{ animationDelay: '2s' }}></div>
 
-                    <Link href="/" className="absolute top-6 left-6 sm:top-10 sm:left-10 inline-flex items-center gap-2 text-sm text-pewter transition hover:text-white group opacity-0 animate-fade-in-up z-20">
+                    <Link href="/" className="absolute top-6 left-6 sm:top-10 sm:left-10 inline-flex items-center gap-2 text-sm text-pewter transition hover:text-white group animate-fade-in-up z-20">
                         <span className="inline-block transition-transform group-hover:-translate-x-1">←</span>
                         Home
                     </Link>
 
-                    <div className="glass-card relative w-full max-w-md rounded-[2.5rem] p-8 sm:p-10 shadow-soft opacity-0 animate-fade-in-up delay-1">
+                    <div className="glass-card relative w-full max-w-md rounded-[2.5rem] p-8 sm:p-10 shadow-soft animate-fade-in-up delay-1">
                         <div className="text-center space-y-3 mb-10">
                             <p className="text-[10px] uppercase tracking-[0.4em] text-pewter sm:text-xs">Join the</p>
                             <h1 className="font-display text-3xl sm:text-4xl text-white">Personal Sanctuary</h1>
@@ -126,7 +126,7 @@ export default function Register() {
                         </p>
                     </div>
 
-                    <p className="mt-8 text-[10px] uppercase tracking-[0.35em] text-pewter/50 opacity-0 animate-fade-in-up delay-3">
+                    <p className="mt-8 text-[10px] uppercase tracking-[0.35em] text-pewter/50 animate-fade-in-up delay-3">
                         © {currentYear} Bagas Pardana Ilham
                     </p>
                 </div>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('category');
             $table->date('date');
-            $table->string('reading_time');
+            $table->string('reading_time')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('status');
             $table->json('content');

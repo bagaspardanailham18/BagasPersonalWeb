@@ -28,9 +28,10 @@ class AdminController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'reading_time' => 'required|string|max:255',
+            'reading_time' => 'nullable|string|max:255',
             'cover_image' => [
                 'nullable',
+                'max:5120',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->hasFile($attribute)) {
                         $file = $request->file($attribute);
@@ -47,14 +48,19 @@ class AdminController extends Controller
             'date' => 'required|date'
         ]);
 
-        $id = Str::slug($validated['title']) . '-' . rand(1, 9999);
+        $id = Str::slug($validated['title']) . '-' . Str::random(6);
 
-        $structuredContent = [
-            [
-                'type' => 'paragraph',
-                'text' => $validated['content']
-            ]
-        ];
+        $decoded = json_decode($validated['content'], true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $structuredContent = $decoded;
+        } else {
+            $structuredContent = [
+                [
+                    'type' => 'paragraph',
+                    'text' => $validated['content']
+                ]
+            ];
+        }
 
         $coverImageUrl = null;
         if ($request->hasFile('cover_image')) {
@@ -68,7 +74,7 @@ class AdminController extends Controller
             'id' => $id,
             'title' => $validated['title'],
             'category' => $validated['category'],
-            'reading_time' => $validated['reading_time'],
+            'reading_time' => $validated['reading_time'] ?? '',
             'cover_image' => $coverImageUrl,
             'content' => $structuredContent,
             'status' => $validated['status'],
@@ -93,9 +99,10 @@ class AdminController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'reading_time' => 'required|string|max:255',
+            'reading_time' => 'nullable|string|max:255',
             'cover_image' => [
                 'nullable',
+                'max:5120',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->hasFile($attribute)) {
                         $file = $request->file($attribute);
@@ -112,12 +119,17 @@ class AdminController extends Controller
             'date' => 'required|date'
         ]);
 
-        $structuredContent = [
-            [
-                'type' => 'paragraph',
-                'text' => $validated['content']
-            ]
-        ];
+        $decoded = json_decode($validated['content'], true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $structuredContent = $decoded;
+        } else {
+            $structuredContent = [
+                [
+                    'type' => 'paragraph',
+                    'text' => $validated['content']
+                ]
+            ];
+        }
 
         $coverImageUrl = $blog->cover_image;
         if ($request->hasFile('cover_image')) {
@@ -130,7 +142,7 @@ class AdminController extends Controller
         $blog->update([
             'title' => $validated['title'],
             'category' => $validated['category'],
-            'reading_time' => $validated['reading_time'],
+            'reading_time' => $validated['reading_time'] ?? '',
             'cover_image' => $coverImageUrl,
             'content' => $structuredContent,
             'status' => $validated['status'],
@@ -162,6 +174,7 @@ class AdminController extends Controller
             'technologies' => 'required|string',
             'image' => [
                 'nullable',
+                'max:5120',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->hasFile($attribute)) {
                         $file = $request->file($attribute);
@@ -178,7 +191,7 @@ class AdminController extends Controller
             'status' => 'required|string'
         ]);
 
-        $id = Str::slug($validated['title']) . '-' . rand(1, 9999);
+        $id = Str::slug($validated['title']) . '-' . Str::random(6);
         $techArray = array_map('trim', explode(',', $validated['technologies']));
 
         $imageUrl = null;
@@ -223,6 +236,7 @@ class AdminController extends Controller
             'technologies' => 'required|string',
             'image' => [
                 'nullable',
+                'max:5120',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->hasFile($attribute)) {
                         $file = $request->file($attribute);

@@ -10,6 +10,7 @@ interface Props {
 export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isBlogSection = activeSection === 'blog';
 
   // Projects filtering
   const [projectSearch, setProjectSearch] = useState('');
@@ -144,7 +145,18 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
   return (
     <>
       <Head title={`${pageTitles[activeSection]} - Admin Sanctuary`} />
-      <div className="bg-[#0a0a0b] text-mist font-body min-h-screen">
+      <div className={isBlogSection 
+        ? "font-body min-h-screen relative bg-[#0c0805] text-[#fbe3c8]" 
+        : "bg-[#0a0a0b] text-mist font-body min-h-screen"
+      }>
+
+        {isBlogSection && (
+          <div className="fixed inset-0 z-0 bg-[#0c0805] pointer-events-none">
+            <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(49,31,19,0.95),rgba(89,52,34,0.85),rgba(15,10,5,0.95))] opacity-80"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,191,132,0.25),transparent_55%),radial-gradient(circle_at_70%_0%,rgba(255,234,214,0.1),transparent_40%)]"></div>
+            <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.02),rgba(255,255,255,0.02)_1px,transparent_1px,transparent_2px),radial-gradient(circle,rgba(255,255,255,0.02)_1px,transparent_1px)] opacity-30"></div>
+          </div>
+        )}
 
         {/* Mobile Overlay */}
         <div
@@ -152,7 +164,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
           onClick={() => setIsSidebarOpen(false)}
         ></div>
 
-        <div className="flex min-h-screen">
+        <div className={`flex min-h-screen ${isBlogSection ? 'relative z-10' : ''}`}>
 
           {/* Sidebar */}
           <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/5 bg-[#0c0c0e] p-5 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:relative'}`}>
@@ -216,7 +228,8 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
           {/* Main Content */}
           <div className="flex flex-1 flex-col min-w-0">
-            <header className="flex items-center justify-between border-b border-white/5 bg-[#0a0a0b]/80 px-6 py-4 backdrop-blur-md sticky top-0 z-30 lg:px-8">
+            <header className={`flex items-center justify-between border-b border-white/5 px-6 py-4 backdrop-blur-md sticky top-0 z-30 lg:px-8 transition-colors duration-300 ${isBlogSection ? 'bg-[#0f0a07]/80' : 'bg-[#0a0a0b]/80'
+              }`}>
               <button
                 className="lg:hidden p-2 -ml-2 rounded-lg text-pewter hover:text-white hover:bg-white/5 transition"
                 onClick={() => setIsSidebarOpen(true)}
@@ -451,16 +464,16 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
                 <section className="space-y-6 animate-in">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                      <h3 className="font-display text-2xl text-white">Blog Posts</h3>
-                      <p className="text-sm text-pewter mt-1">Manage your journal entries</p>
+                      <h3 className="font-display text-2xl text-[#fff4e6]">Blog Posts</h3>
+                      <p className="text-sm text-[#fbe3c8]/70 mt-1">Manage your journal entries</p>
                     </div>
                     <Link href="/admin/add-blog" className="add-btn"><span className="text-lg leading-none">+</span> Add Post</Link>
                   </div>
                   <div className="relative max-w-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-pewter/60"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-[#fbe3c8]/40"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
                     <input type="search" placeholder="Search posts..." value={blogSearch} onChange={e => setBlogSearch(e.target.value)} className="search-input w-full" />
                   </div>
-                  <div className="chart-card overflow-hidden">
+                  <div className="warm-card overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="data-table">
                         <thead>
@@ -468,20 +481,18 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
                             <th>Title</th>
                             <th>Category</th>
                             <th>Date</th>
-                            <th>Reading Time</th>
                             <th className="text-right">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           {filteredBlogPosts.length === 0 ? (
-                            <tr><td colSpan={5} className="text-center text-pewter py-8">No posts match your search.</td></tr>
+                            <tr><td colSpan={4} className="text-center text-pewter py-8">No posts match your search.</td></tr>
                           ) : (
                             filteredBlogPosts.map(p => (
                               <tr key={p.id}>
                                 <td className="font-medium text-white">{p.title}</td>
                                 <td>{p.category}</td>
                                 <td>{formatDate(p.date)}</td>
-                                <td>{p.readingTime || p.reading_time}</td>
                                 <td className="text-right">
                                   <div className="flex justify-end gap-2">
                                     <Link href={`/admin/edit-blog/${p.id}`} className="action-btn">Edit</Link>

@@ -8,6 +8,11 @@ interface Props {
   blogPosts: BlogPost[];
 }
 
+const stripHtml = (html: string) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '');
+};
+
 export default function Home({ projects = [], blogPosts = [] }: Props) {
   const currentYear = new Date().getFullYear();
 
@@ -163,7 +168,7 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
                     <article className="rounded-[2rem] border border-white/10 bg-[#0b0b0b] p-6 shadow-inner transition hover:border-white/20">
                       <p className="text-xs uppercase tracking-[0.4em] text-pewter">Latest note</p>
                       <h3 className="mt-3 font-display text-2xl text-white">{latestPost.title}</h3>
-                      <p className="mt-1 text-sm text-pewter">{formatDate(latestPost.date)} · {latestPost.readingTime || latestPost.reading_time}</p>
+                      <p className="mt-1 text-sm text-pewter">{formatDate(latestPost.date)}</p>
                       <div className="mt-4 space-y-2 text-sm leading-relaxed text-pewter">
                         <p>{latestPost.content[0]?.text || 'Fresh note from the journal.'}</p>
                       </div>
@@ -232,7 +237,7 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
                         <div className="space-y-5 px-8 pb-10 pt-8">
                           <div>
                             <h3 className="font-display text-2xl text-white">{project.title}</h3>
-                            <p className="mt-3 text-base leading-relaxed text-pewter">{project.description}</p>
+                            <p className="mt-3 text-base leading-relaxed text-pewter line-clamp-3">{stripHtml(project.description || '')}</p>
                           </div>
                           <ul className="flex flex-wrap gap-2 text-sm text-pewter">
                             {project.technologies.map((tech) => (
@@ -304,8 +309,6 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
                         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#fbdcc0]">
                           <span className="rounded-full border border-white/10 px-3 py-1">{post.category}</span>
                           <span>{formatDate(post.date)}</span>
-                          <span>·</span>
-                          <span>{post.readingTime || post.reading_time}</span>
                         </div>
                         <h3 className="font-display text-2xl text-[#fff0dc]">{post.title}</h3>
                         <div className="space-y-3 text-sm leading-relaxed text-[#fbe3c8]">
