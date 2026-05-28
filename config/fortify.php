@@ -90,6 +90,11 @@ return [
 
     'domain' => null,
 
+    'paths' => [
+        'login' => '/user-signin',
+        'register' => '/user-signup',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Fortify Routes Middleware

@@ -1,14 +1,16 @@
-import { Head, Link, useForm } from '@inertiajs/react';
-import React, { FormEvent } from 'react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
+import React, { FormEvent, useState } from 'react';
 
 interface Props {
   project?: any;
 }
 
 export default function AddProject({ project }: Props) {
+  const [imageSource, setImageSource] = useState<'url' | 'upload'>('url');
+
   const { data, setData, post, put, processing, errors } = useForm<{
     title: string; category: string; technologies: string; status: string;
-    image: string; live_url: string; repo_url: string; description: string;
+    image: string | File | null; live_url: string; repo_url: string; description: string;
   }>({
     title: project?.title || '',
     category: project?.category || '',
@@ -23,7 +25,10 @@ export default function AddProject({ project }: Props) {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (project) {
-      put(`/admin/project/${project.id}`);
+      router.post(`/admin/project/${project.id}`, {
+        ...data,
+        _method: 'PUT',
+      } as any);
     } else {
       post('/admin/project');
     }
@@ -124,41 +129,98 @@ export default function AddProject({ project }: Props) {
                        </div>
                     </div>
 
-                    <div className="grid gap-6 sm:grid-cols-3">
-                        <div className="space-y-2">
-                           <label className="block text-xs uppercase tracking-widest text-pewter">Cover Image URL</label>
+                     <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                           <label className="block text-xs uppercase tracking-widest text-pewter">Cover Image</label>
+                           <div className="flex rounded-lg bg-white/5 p-0.5 border border-white/5">
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setImageSource('url');
+                                    if (typeof data.image !== 'string') {
+                                       setData('image', '');
+                                    }
+                                 }}
+                                 className={`rounded-md px-3 py-1 text-[10px] uppercase tracking-wider transition ${
+                                    imageSource === 'url' ? 'bg-white/10 text-white font-medium' : 'text-pewter hover:text-white'
+                                 }`}
+                              >
+                                 URL
+                              </button>
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setImageSource('upload');
+                                    setData('image', null);
+                                 }}
+                                 className={`rounded-md px-3 py-1 text-[10px] uppercase tracking-wider transition ${
+                                    imageSource === 'upload' ? 'bg-white/10 text-white font-medium' : 'text-pewter hover:text-white'
+                                 }`}
+                              >
+                                 Upload
+                              </button>
+                           </div>
+                        </div>
+
+                        {imageSource === 'url' ? (
                            <input 
                              type="url" 
-                             value={data.image}
+                             value={typeof data.image === 'string' ? data.image : ''}
                              onChange={e => setData('image', e.target.value)}
-                             placeholder="https://..." 
-                             className="search-input w-full !pl-4 !rounded-xl"
-                           />
-                           {errors.image && <div className="text-red-400 text-xs mt-1">{errors.image}</div>}
-                        </div>
-                        <div className="space-y-2">
-                           <label className="block text-xs uppercase tracking-widest text-pewter">Live URL</label>
-                           <input 
-                             type="url" 
-                             value={data.live_url}
-                             onChange={e => setData('live_url', e.target.value)}
-                             placeholder="https://..." 
+                             placeholder="https://images.unsplash.com/..." 
                              className="search-input w-full !pl-4 !rounded-xl" 
                            />
-                           {errors.live_url && <div className="text-red-400 text-xs mt-1">{errors.live_url}</div>}
-                        </div>
-                        <div className="space-y-2">
-                           <label className="block text-xs uppercase tracking-widest text-pewter">Repo URL</label>
-                           <input 
-                             type="url" 
-                             value={data.repo_url}
-                             onChange={e => setData('repo_url', e.target.value)}
-                             placeholder="https://..." 
-                             className="search-input w-full !pl-4 !rounded-xl" 
-                           />
-                           {errors.repo_url && <div className="text-red-400 text-xs mt-1">{errors.repo_url}</div>}
-                        </div>
-                    </div>
+                        ) : (
+                           <div className="flex flex-col gap-2">
+                              <input 
+                                type="file" 
+                                accept="image/*"
+                                onChange={e => {
+                                   const file = e.target.files?.[0] || null;
+                                   setData('image', file);
+                                }}
+                                className="search-input w-full !pl-4 !rounded-xl file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:uppercase file:tracking-widest file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer pt-2 pb-2" 
+                              />
+                              {data.image && typeof data.image !== 'string' && (
+                                 <p className="text-xs text-emerald-400">Selected: {data.image.name}</p>
+                              )}
+                           </div>
+                        )}
+
+                        {project?.image && typeof data.image === 'string' && data.image !== '' && (
+                           <div className="mt-2 text-xs text-pewter flex items-center gap-3">
+                              <span>Current Image:</span>
+                              <img src={project.image} alt="Preview" className="h-10 w-24 object-cover rounded-[0.5rem] border border-white/10" />
+                           </div>
+                        )}
+
+                        {errors.image && <div className="text-red-400 text-xs mt-1">{errors.image}</div>}
+                     </div>
+
+                     <div className="grid gap-6 sm:grid-cols-2">
+                         <div className="space-y-2">
+                            <label className="block text-xs uppercase tracking-widest text-pewter">Live URL</label>
+                            <input 
+                              type="url" 
+                              value={data.live_url}
+                              onChange={e => setData('live_url', e.target.value)}
+                              placeholder="https://..." 
+                              className="search-input w-full !pl-4 !rounded-xl" 
+                            />
+                            {errors.live_url && <div className="text-red-400 text-xs mt-1">{errors.live_url}</div>}
+                         </div>
+                         <div className="space-y-2">
+                            <label className="block text-xs uppercase tracking-widest text-pewter">Repo URL</label>
+                            <input 
+                              type="url" 
+                              value={data.repo_url}
+                              onChange={e => setData('repo_url', e.target.value)}
+                              placeholder="https://..." 
+                              className="search-input w-full !pl-4 !rounded-xl" 
+                            />
+                            {errors.repo_url && <div className="text-red-400 text-xs mt-1">{errors.repo_url}</div>}
+                         </div>
+                     </div>
 
                     <div className="space-y-2">
                        <label className="block text-xs uppercase tracking-widest text-pewter">Description</label>

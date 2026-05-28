@@ -29,15 +29,26 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'reading_time' => 'required|string|max:255',
-            'cover_image' => 'nullable|url',
+            'cover_image' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->hasFile($attribute)) {
+                        $file = $request->file($attribute);
+                        if (!$file->isValid() || !str_starts_with($file->getMimeType(), 'image/')) {
+                            $fail('The ' . $attribute . ' must be a valid image file.');
+                        }
+                    } elseif (is_string($value) && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('The ' . $attribute . ' must be a valid URL.');
+                    }
+                }
+            ],
             'content' => 'required|string', 
-            'status' => 'required|string|in:Published,Draft'
+            'status' => 'required|string|in:Published,Draft',
+            'date' => 'required|date'
         ]);
 
-        $id = Str::slug($validated['title']);
+        $id = Str::slug($validated['title']) . '-' . rand(1, 9999);
 
-        // Since the ui uses structured json blocks, we'll convert markdown/string content to a single paragraph block for now, 
-        // to conform to the existing frontend renderer.
         $structuredContent = [
             [
                 'type' => 'paragraph',
@@ -45,15 +56,23 @@ class AdminController extends Controller
             ]
         ];
 
+        $coverImageUrl = null;
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('covers', 'public');
+            $coverImageUrl = asset('storage/' . $path);
+        } else {
+            $coverImageUrl = $validated['cover_image'] ?? null;
+        }
+
         Blog::create([
             'id' => $id,
             'title' => $validated['title'],
             'category' => $validated['category'],
             'reading_time' => $validated['reading_time'],
-            'cover_image' => $validated['cover_image'],
+            'cover_image' => $coverImageUrl,
             'content' => $structuredContent,
             'status' => $validated['status'],
-            'date' => now()->toDateString(),
+            'date' => $validated['date'],
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Blog post created successfully');
@@ -75,9 +94,22 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'reading_time' => 'required|string|max:255',
-            'cover_image' => 'nullable|url',
+            'cover_image' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->hasFile($attribute)) {
+                        $file = $request->file($attribute);
+                        if (!$file->isValid() || !str_starts_with($file->getMimeType(), 'image/')) {
+                            $fail('The ' . $attribute . ' must be a valid image file.');
+                        }
+                    } elseif (is_string($value) && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('The ' . $attribute . ' must be a valid URL.');
+                    }
+                }
+            ],
             'content' => 'required|string',
-            'status' => 'required|string|in:Published,Draft'
+            'status' => 'required|string|in:Published,Draft',
+            'date' => 'required|date'
         ]);
 
         $structuredContent = [
@@ -87,13 +119,22 @@ class AdminController extends Controller
             ]
         ];
 
+        $coverImageUrl = $blog->cover_image;
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('covers', 'public');
+            $coverImageUrl = asset('storage/' . $path);
+        } elseif (array_key_exists('cover_image', $validated)) {
+            $coverImageUrl = $validated['cover_image'];
+        }
+
         $blog->update([
             'title' => $validated['title'],
             'category' => $validated['category'],
             'reading_time' => $validated['reading_time'],
-            'cover_image' => $validated['cover_image'],
+            'cover_image' => $coverImageUrl,
             'content' => $structuredContent,
             'status' => $validated['status'],
+            'date' => $validated['date'],
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Blog post updated successfully');
@@ -118,20 +159,47 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'category' => 'required|string|max:255',
-            'technologies' => 'required|string', // comma separated string from frontend
-            'image' => 'nullable|url',
+            'technologies' => 'required|string',
+            'image' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->hasFile($attribute)) {
+                        $file = $request->file($attribute);
+                        if (!$file->isValid() || !str_starts_with($file->getMimeType(), 'image/')) {
+                            $fail('The ' . $attribute . ' must be a valid image file.');
+                        }
+                    } elseif (is_string($value) && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('The ' . $attribute . ' must be a valid URL.');
+                    }
+                }
+            ],
             'live_url' => 'nullable|url',
             'repo_url' => 'nullable|url',
             'status' => 'required|string'
         ]);
 
-        $id = Str::slug($validated['title']);
+        $id = Str::slug($validated['title']) . '-' . rand(1, 9999);
         $techArray = array_map('trim', explode(',', $validated['technologies']));
 
-        Project::create(array_merge($validated, [
+        $imageUrl = null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('projects', 'public');
+            $imageUrl = asset('storage/' . $path);
+        } else {
+            $imageUrl = $validated['image'] ?? null;
+        }
+
+        Project::create([
             'id' => $id,
-            'technologies' => $techArray
-        ]));
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'category' => $validated['category'],
+            'technologies' => $techArray,
+            'image' => $imageUrl,
+            'live_url' => $validated['live_url'],
+            'repo_url' => $validated['repo_url'],
+            'status' => $validated['status'],
+        ]);
 
         return redirect()->route('dashboard')->with('success', 'Project created');
     }
@@ -153,7 +221,19 @@ class AdminController extends Controller
             'description' => 'required|string',
             'category' => 'required|string|max:255',
             'technologies' => 'required|string',
-            'image' => 'nullable|url',
+            'image' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->hasFile($attribute)) {
+                        $file = $request->file($attribute);
+                        if (!$file->isValid() || !str_starts_with($file->getMimeType(), 'image/')) {
+                            $fail('The ' . $attribute . ' must be a valid image file.');
+                        }
+                    } elseif (is_string($value) && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                        $fail('The ' . $attribute . ' must be a valid URL.');
+                    }
+                }
+            ],
             'live_url' => 'nullable|url',
             'repo_url' => 'nullable|url',
             'status' => 'required|string'
@@ -161,9 +241,24 @@ class AdminController extends Controller
 
         $techArray = array_map('trim', explode(',', $validated['technologies']));
 
-        $project->update(array_merge($validated, [
-            'technologies' => $techArray
-        ]));
+        $imageUrl = $project->image;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('projects', 'public');
+            $imageUrl = asset('storage/' . $path);
+        } elseif (array_key_exists('image', $validated)) {
+            $imageUrl = $validated['image'];
+        }
+
+        $project->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'category' => $validated['category'],
+            'technologies' => $techArray,
+            'image' => $imageUrl,
+            'live_url' => $validated['live_url'],
+            'repo_url' => $validated['repo_url'],
+            'status' => $validated['status'],
+        ]);
 
         return redirect()->route('dashboard')->with('success', 'Project updated');
     }

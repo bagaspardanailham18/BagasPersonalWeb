@@ -67,14 +67,14 @@ export default function BlogDetail({ post }: Props) {
                 <span className="rounded-full border border-[#fbdcc0]/20 px-3 py-1">{post.category}</span>
                 <span>{formatDate(post.date)}</span>
                 <span>·</span>
-                <span>{post.readingTime}</span>
+                <span>{post.readingTime || post.reading_time}</span>
               </div>
               <h1 className="font-display text-4xl sm:text-6xl text-[#fff4e6] leading-tight">{post.title}</h1>
             </div>
 
             <div className="relative aspect-[21/9] overflow-hidden rounded-[2rem] border border-[#fbdcc0]/10 shadow-soft">
               <img
-                src={post.coverImage}
+                src={post.coverImage || post.cover_image}
                 alt={`${post.title} cover`}
                 className="h-full w-full object-cover"
               />

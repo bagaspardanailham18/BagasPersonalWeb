@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
-    public function welcome()
+    public function home()
     {
-        return Inertia::render('welcome', [
+        return Inertia::render('home', [
             'projects' => Project::orderBy('created_at', 'desc')->get(),
             'blogPosts' => Blog::where('status', 'Published')->orderBy('date', 'desc')->get()
         ]);

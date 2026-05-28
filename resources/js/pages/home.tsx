@@ -8,7 +8,7 @@ interface Props {
   blogPosts: BlogPost[];
 }
 
-export default function Welcome({ projects = [], blogPosts = [] }: Props) {
+export default function Home({ projects = [], blogPosts = [] }: Props) {
   const currentYear = new Date().getFullYear();
 
   // State
@@ -75,9 +75,8 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
           </div>
 
           <header
-            className={`sticky top-0 z-20 mx-auto flex max-w-6xl flex-col items-start gap-4 border-b border-white/5 px-6 pt-8 pb-6 transition-[background-color,backdrop-filter] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-10 sm:pt-12 sm:pb-10 lg:px-12 ${
-              isScrolled ? 'bg-black/60 backdrop-blur-md' : 'bg-[#050505]/85 backdrop-blur-md'
-            }`}
+            className={`sticky top-0 z-20 mx-auto flex max-w-6xl flex-col items-start gap-4 border-b border-white/5 px-6 pt-8 pb-6 transition-[background-color,backdrop-filter] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-10 sm:pt-12 sm:pb-10 lg:px-12 ${isScrolled ? 'bg-black/60 backdrop-blur-md' : 'bg-[#050505]/85 backdrop-blur-md'
+              }`}
           >
             <div>
               <p className="text-[10px] uppercase tracking-[0.35em] text-pewter sm:text-xs">Bagas Pardana Ilham's</p>
@@ -87,7 +86,6 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
               <a href="#" className="hover:text-white transition">Home</a>
               <a href="#projects" className="hover:text-white transition">Projects</a>
               <a href="#blog" className="hover:text-white transition">Blog</a>
-              <Link href="/login" className="hover:text-white transition">Login</Link>
             </nav>
           </header>
 
@@ -165,7 +163,7 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
                     <article className="rounded-[2rem] border border-white/10 bg-[#0b0b0b] p-6 shadow-inner transition hover:border-white/20">
                       <p className="text-xs uppercase tracking-[0.4em] text-pewter">Latest note</p>
                       <h3 className="mt-3 font-display text-2xl text-white">{latestPost.title}</h3>
-                      <p className="mt-1 text-sm text-pewter">{formatDate(latestPost.date)} · {latestPost.readingTime}</p>
+                      <p className="mt-1 text-sm text-pewter">{formatDate(latestPost.date)} · {latestPost.readingTime || latestPost.reading_time}</p>
                       <div className="mt-4 space-y-2 text-sm leading-relaxed text-pewter">
                         <p>{latestPost.content[0]?.text || 'Fresh note from the journal.'}</p>
                       </div>
@@ -191,11 +189,10 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
                       key={cat}
                       type="button"
                       onClick={() => setActiveProjectCategory(cat)}
-                      className={`rounded-full border px-5 py-2 text-xs uppercase tracking-[0.3em] transition ${
-                        activeProjectCategory === cat
-                          ? 'border-white bg-white/10 text-white'
-                          : 'border-white/20 text-pewter hover:text-white'
-                      }`}
+                      className={`rounded-full border px-5 py-2 text-xs uppercase tracking-[0.3em] transition ${activeProjectCategory === cat
+                        ? 'border-white bg-white/10 text-white'
+                        : 'border-white/20 text-pewter hover:text-white'
+                        }`}
                     >
                       {cat}
                     </button>
@@ -269,9 +266,8 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
                       key={cat}
                       type="button"
                       onClick={() => setActiveBlogCategory(cat)}
-                      className={`filter-pill warm-pill rounded-full border px-5 py-2 text-xs uppercase tracking-[0.3em] transition hover:text-white ${
-                        activeBlogCategory === cat ? 'warm-pill-active' : ''
-                      }`}
+                      className={`filter-pill warm-pill rounded-full border px-5 py-2 text-xs uppercase tracking-[0.3em] transition hover:text-white ${activeBlogCategory === cat ? 'warm-pill-active' : ''
+                        }`}
                     >
                       {cat}
                     </button>
@@ -297,7 +293,7 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
                     <article key={post.id} className="warm-card flex h-full flex-col overflow-hidden rounded-[2.25rem] p-2 transition hover:scale-[1.02]">
                       <div className="group relative h-60 overflow-hidden rounded-[2rem]">
                         <img
-                          src={post.coverImage}
+                          src={post.coverImage || post.cover_image}
                           alt={post.title}
                           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                           loading="lazy"
@@ -309,7 +305,7 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
                           <span className="rounded-full border border-white/10 px-3 py-1">{post.category}</span>
                           <span>{formatDate(post.date)}</span>
                           <span>·</span>
-                          <span>{post.readingTime}</span>
+                          <span>{post.readingTime || post.reading_time}</span>
                         </div>
                         <h3 className="font-display text-2xl text-[#fff0dc]">{post.title}</h3>
                         <div className="space-y-3 text-sm leading-relaxed text-[#fbe3c8]">
@@ -342,8 +338,8 @@ export default function Welcome({ projects = [], blogPosts = [] }: Props) {
 
             <footer className="mt-16 border-t border-white/5 pt-8 text-[10px] text-pewter sm:mt-24 sm:text-sm">
               <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
-                <p>© {currentYear} Bagas Pardana Ilham. Built with pure HTML + Tailwind + React.</p>
-                <a href="mailto:hello@bagas.studio" className="text-white transition hover:text-pewter">hello@bagas.studio</a>
+                <p>© {currentYear} Built with ❤️ by Bagas Pardana Ilham.</p>
+                <a href="mailto:hello@bagas.studio" className="text-white transition hover:text-pewter">ibagaspardana@gmail.com</a>
               </div>
             </footer>
           </div>

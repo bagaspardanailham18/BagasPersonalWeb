@@ -7,6 +7,8 @@ export interface Project {
   image?: string;
   liveUrl?: string;
   repoUrl?: string;
+  live_url?: string;
+  repo_url?: string;
   status: string;
 }
 
@@ -16,7 +18,9 @@ export interface BlogPost {
   category: string;
   date: string;
   readingTime: string;
+  reading_time?: string;
   coverImage?: string;
+  cover_image?: string;
   status: string;
   content: Array<{ type: string; text?: string; items?: string[] }>;
 }

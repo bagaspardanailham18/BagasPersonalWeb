@@ -10,7 +10,7 @@ interface Props {
 export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
+
   // Projects filtering
   const [projectSearch, setProjectSearch] = useState('');
   // Blog filtering
@@ -41,7 +41,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      
+
       ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
       ctx.scale(dpr, dpr);
 
@@ -145,15 +145,15 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
     <>
       <Head title={`${pageTitles[activeSection]} - Admin Sanctuary`} />
       <div className="bg-[#0a0a0b] text-mist font-body min-h-screen">
-        
+
         {/* Mobile Overlay */}
-        <div 
+        <div
           className={`fixed inset-0 bg-black/50 z-40 transition-opacity ${isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none lg:hidden'}`}
           onClick={() => setIsSidebarOpen(false)}
         ></div>
 
         <div className="flex min-h-screen">
-          
+
           {/* Sidebar */}
           <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/5 bg-[#0c0c0e] p-5 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:relative'}`}>
             <div className="mb-8">
@@ -163,21 +163,29 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
             <nav className="flex-1 space-y-1">
               {[
-                { id: 'dashboard', label: 'Dashboard', icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5" /><rect x="14" y="3" width="7" height="5" rx="1.5" /><rect x="14" y="12" width="7" height="9" rx="1.5" /><rect x="3" y="16" width="7" height="5" rx="1.5" /></svg>
-                )},
-                { id: 'projects', label: 'Projects', icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" /></svg>
-                )},
-                { id: 'blog', label: 'Blog Posts', icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" /></svg>
-                )},
-                { id: 'messages', label: 'Messages', badge: 3, icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-                )}
+                {
+                  id: 'dashboard', label: 'Dashboard', icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5" /><rect x="14" y="3" width="7" height="5" rx="1.5" /><rect x="14" y="12" width="7" height="9" rx="1.5" /><rect x="3" y="16" width="7" height="5" rx="1.5" /></svg>
+                  )
+                },
+                {
+                  id: 'projects', label: 'Projects', icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" /></svg>
+                  )
+                },
+                {
+                  id: 'blog', label: 'Blog Posts', icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" /></svg>
+                  )
+                },
+                {
+                  id: 'messages', label: 'Messages', badge: 3, icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                  )
+                }
               ].map(item => (
-                <button 
-                  key={item.id} 
+                <button
+                  key={item.id}
                   onClick={() => { setActiveSection(item.id); setIsSidebarOpen(false); }}
                   className={`w-full sidebar-link ${activeSection === item.id ? 'active' : ''}`}
                 >
@@ -189,7 +197,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
               <div className="my-4 h-px bg-white/5"></div>
 
-              <button 
+              <button
                 onClick={() => { setActiveSection('settings'); setIsSidebarOpen(false); }}
                 className={`w-full sidebar-link ${activeSection === 'settings' ? 'active' : ''}`}
               >
@@ -209,7 +217,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
           {/* Main Content */}
           <div className="flex flex-1 flex-col min-w-0">
             <header className="flex items-center justify-between border-b border-white/5 bg-[#0a0a0b]/80 px-6 py-4 backdrop-blur-md sticky top-0 z-30 lg:px-8">
-              <button 
+              <button
                 className="lg:hidden p-2 -ml-2 rounded-lg text-pewter hover:text-white hover:bg-white/5 transition"
                 onClick={() => setIsSidebarOpen(true)}
               >
@@ -473,7 +481,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
                                 <td className="font-medium text-white">{p.title}</td>
                                 <td>{p.category}</td>
                                 <td>{formatDate(p.date)}</td>
-                                <td>{p.readingTime}</td>
+                                <td>{p.readingTime || p.reading_time}</td>
                                 <td className="text-right">
                                   <div className="flex justify-end gap-2">
                                     <Link href={`/admin/edit-blog/${p.id}`} className="action-btn">Edit</Link>
@@ -527,16 +535,16 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
                   </div>
                   <div className="chart-card p-6 max-w-2xl space-y-6">
                     <div className="space-y-2">
-                       <label className="block text-xs uppercase tracking-widest text-pewter">Display Name</label>
-                       <input type="text" defaultValue="Bagas Pardana Ilham" className="search-input w-full !pl-4 !rounded-xl" />
+                      <label className="block text-xs uppercase tracking-widest text-pewter">Display Name</label>
+                      <input type="text" defaultValue="Bagas Pardana Ilham" className="search-input w-full !pl-4 !rounded-xl" />
                     </div>
                     <div className="space-y-2">
-                       <label className="block text-xs uppercase tracking-widest text-pewter">Email</label>
-                       <input type="email" defaultValue="hello@bagas.studio" className="search-input w-full !pl-4 !rounded-xl" />
+                      <label className="block text-xs uppercase tracking-widest text-pewter">Email</label>
+                      <input type="email" defaultValue="hello@bagas.studio" className="search-input w-full !pl-4 !rounded-xl" />
                     </div>
                     <div className="space-y-2">
-                       <label className="block text-xs uppercase tracking-widest text-pewter">Bio</label>
-                       <textarea rows={3} defaultValue="Quiet technology, personal rituals. I craft contemplative digital spaces." className="search-input w-full !pl-4 !rounded-xl resize-none"></textarea>
+                      <label className="block text-xs uppercase tracking-widest text-pewter">Bio</label>
+                      <textarea rows={3} defaultValue="Quiet technology, personal rituals. I craft contemplative digital spaces." className="search-input w-full !pl-4 !rounded-xl resize-none"></textarea>
                     </div>
                     <button className="add-btn">Save Changes</button>
                   </div>

@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', [PublicController::class, 'welcome'])->name('home');
+Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/project/{id}', [PublicController::class, 'showProject'])->name('project.show');
 Route::get('/blog/{id}', [PublicController::class, 'showBlog'])->name('blog.show');
 

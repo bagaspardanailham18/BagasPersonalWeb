@@ -59,13 +59,13 @@ export default function ProjectDetail({ project }: Props) {
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4 border-t border-white/5">
-                {project.liveUrl && (
-                   <a href={project.liveUrl} target="_blank" rel="noreferrer" className="rounded-full bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-white/90">
+                {(project.liveUrl || project.live_url) && (
+                   <a href={project.liveUrl || project.live_url} target="_blank" rel="noreferrer" className="rounded-full bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-white/90">
                      Live space ↗
                    </a>
                 )}
-                {project.repoUrl && (
-                   <a href={project.repoUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 px-6 py-2.5 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-white/10">
+                {(project.repoUrl || project.repo_url) && (
+                   <a href={project.repoUrl || project.repo_url} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 px-6 py-2.5 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-white/10">
                      Source code ↗
                    </a>
                 )}
