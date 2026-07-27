@@ -15,16 +15,16 @@ class PublicController extends Controller
             'projects' => Project::orderBy('created_at', 'desc')->get(),
             'blogPosts' => Blog::where('status', 'Published')->orderBy('date', 'desc')->get()
         ])->withViewData([
-            'metaTitle' => 'Bagas Pardana Ilham — Personal Sanctuary',
-            'metaDescription' => 'The personal sanctuary of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.',
+            'metaTitle' => 'Bagas Pardana Ilham — Personal Manifesto',
+            'metaDescription' => 'The personal manifesto of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.',
             'metaImage' => asset('favicon.svg'),
             'metaUrl' => url('/'),
             'metaJsonLd' => [
                 '@context' => 'https://schema.org',
                 '@type' => 'WebSite',
-                'name' => 'Bagas Pardana Ilham — Personal Sanctuary',
+                'name' => 'Bagas Pardana Ilham — Personal Manifesto',
                 'url' => url('/'),
-                'description' => 'The personal sanctuary of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.'
+                'description' => 'The personal manifesto of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.'
             ]
         ]);
     }
@@ -44,7 +44,7 @@ class PublicController extends Controller
         return Inertia::render('project-detail', [
             'project' => $project
         ])->withViewData([
-            'metaTitle' => $project->title . ' — Personal Sanctuary',
+            'metaTitle' => $project->title . ' — Personal Manifesto',
             'metaDescription' => $description ?: 'A quiet project and contemplative space built by Bagas Pardana Ilham.',
             'metaImage' => $imageUrl,
             'metaUrl' => route('project.show', $project->id),

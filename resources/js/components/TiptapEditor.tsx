@@ -35,6 +35,7 @@ export default function TiptapEditor({ content, onChange, placeholder }: Props) 
     editorProps: {
       attributes: {
         class: 'tiptap focus:outline-none min-h-[250px] p-4 text-white text-base leading-relaxed',
+        ...(placeholder ? { placeholder } : {}),
       },
     },
     onUpdate: ({ editor }) => {

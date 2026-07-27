@@ -18,7 +18,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
     return (
         <>
-            <Head title="Sign In — Personal Sanctuary" />
+            <Head title="Sign In — Personal Manifesto" />
             <div className="bg-[#050505] text-mist font-body">
                 <MeteorShower />
 
@@ -34,7 +34,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <div className="glass-card relative w-full max-w-md rounded-[2.5rem] p-8 sm:p-10 shadow-soft animate-fade-in-up delay-1">
                         <div className="text-center space-y-3 mb-10">
                             <p className="text-[10px] uppercase tracking-[0.4em] text-pewter sm:text-xs">Welcome back to</p>
-                            <h1 className="font-display text-3xl sm:text-4xl text-white">Personal Sanctuary</h1>
+                            <h1 className="font-display text-3xl sm:text-4xl text-white">Personal Manifesto</h1>
                             <p className="text-sm text-pewter leading-relaxed">Sign in to continue your journey</p>
                         </div>
 

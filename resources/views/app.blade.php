@@ -7,23 +7,23 @@
         <meta name="author" content="Bagas Pardana Ilham" />
         
         <!-- Primary Meta Tags -->
-        <meta name="title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Sanctuary' }}">
-        <meta name="description" content="{{ $metaDescription ?? 'The personal sanctuary of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
+        <meta name="title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Manifesto' }}">
+        <meta name="description" content="{{ $metaDescription ?? 'The personal manifesto of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
         <link rel="canonical" href="{{ $metaUrl ?? url()->current() }}">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ $metaUrl ?? url()->current() }}">
-        <meta property="og:title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Sanctuary' }}">
-        <meta property="og:description" content="{{ $metaDescription ?? 'The personal sanctuary of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
+        <meta property="og:title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Manifesto' }}">
+        <meta property="og:description" content="{{ $metaDescription ?? 'The personal manifesto of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
         <meta property="og:image" content="{{ $metaImage ?? asset('favicon.svg') }}">
-        <meta property="og:site_name" content="Bagas Personal Sanctuary">
+        <meta property="og:site_name" content="Bagas Personal Manifesto">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ $metaUrl ?? url()->current() }}">
-        <meta property="twitter:title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Sanctuary' }}">
-        <meta property="twitter:description" content="{{ $metaDescription ?? 'The personal sanctuary of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
+        <meta property="twitter:title" content="{{ $metaTitle ?? 'Bagas Pardana Ilham — Personal Manifesto' }}">
+        <meta property="twitter:description" content="{{ $metaDescription ?? 'The personal manifesto of Bagas Pardana Ilham—quiet IT projects, blog essays, and contemplative notes inspired by running in nature and piano sketches.' }}">
         <meta property="twitter:image" content="{{ $metaImage ?? asset('favicon.svg') }}">
 
         @if(isset($metaJsonLd))

@@ -69,7 +69,7 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
 
   return (
     <>
-      <Head title="Bagas Pardana Ilham — Personal Sanctuary" />
+      <Head title="Bagas Pardana Ilham — Personal Manifesto" />
       <div className="min-h-screen bg-[#050505] font-body text-mist">
         <MeteorShower />
         <div className="relative z-10 overflow-clip">
@@ -85,7 +85,7 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
           >
             <div>
               <p className="text-[10px] uppercase tracking-[0.35em] text-pewter sm:text-xs">Bagas Pardana Ilham's</p>
-              <h1 className="font-display text-2xl text-white sm:text-4xl">Personal Sanctuary</h1>
+              <h1 className="font-display text-2xl text-white sm:text-4xl">Personal Manifesto</h1>
             </div>
             <nav className="flex w-full flex-wrap items-center gap-4 text-xs uppercase tracking-[0.3em] text-pewter sm:w-auto sm:gap-6 sm:text-sm">
               <a href="#" className="hover:text-white transition">Home</a>
@@ -170,7 +170,11 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
                       <h3 className="mt-3 font-display text-2xl text-white">{latestPost.title}</h3>
                       <p className="mt-1 text-sm text-pewter">{formatDate(latestPost.date)}</p>
                       <div className="mt-4 space-y-2 text-sm leading-relaxed text-pewter">
-                        <p>{latestPost.content[0]?.text || 'Fresh note from the journal.'}</p>
+                        <p className="line-clamp-2">
+                          {latestPost.content[0]?.type === 'list'
+                            ? latestPost.content[0]?.items?.join(', ')
+                            : latestPost.content[0]?.text || 'Fresh note from the journal.'}
+                        </p>
                       </div>
                       <Link href={`/blog/${latestPost.id}`} className="mt-4 inline-flex text-sm font-medium text-white transition hover:text-pewter">
                         Continue reading →
@@ -312,20 +316,11 @@ export default function Home({ projects = [], blogPosts = [] }: Props) {
                         </div>
                         <h3 className="font-display text-2xl text-[#fff0dc]">{post.title}</h3>
                         <div className="space-y-3 text-sm leading-relaxed text-[#fbe3c8]">
-                          {post.content.slice(0, 2).map((block, idx) => {
-                            if (block.type === 'quote') {
-                              return <p key={idx} className="italic text-white/70">"{block.text}"</p>;
-                            } else if (block.type === 'list') {
-                              return (
-                                <ul key={idx} className="list-disc pl-5 text-pewter/90">
-                                  {block.items?.map((item) => (
-                                    <li key={item}>{item}</li>
-                                  ))}
-                                </ul>
-                              );
-                            }
-                            return <p key={idx}>{block.text}</p>;
-                          })}
+                          <p className="line-clamp-2">
+                            {post.content[0]?.type === 'list'
+                              ? post.content[0]?.items?.join(', ')
+                              : post.content[0]?.text || ''}
+                          </p>
                         </div>
                         <div className="mt-auto">
                           <Link href={`/blog/${post.id}`} className="text-sm font-medium text-white transition hover:text-[#fbdcc0]">

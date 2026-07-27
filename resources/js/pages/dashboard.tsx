@@ -100,7 +100,13 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
       // Line
       ctx.beginPath();
-      points.forEach((p, i) => { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+      points.forEach((p, i) => {
+        if (i === 0) {
+          ctx.moveTo(p.x, p.y);
+        } else {
+          ctx.lineTo(p.x, p.y);
+        }
+      });
       ctx.strokeStyle = '#4ade80';
       ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
@@ -144,9 +150,9 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
   return (
     <>
-      <Head title={`${pageTitles[activeSection]} - Admin Sanctuary`} />
-      <div className={isBlogSection 
-        ? "font-body min-h-screen relative bg-[#0c0805] text-[#fbe3c8]" 
+      <Head title={`${pageTitles[activeSection]} - Admin Manifesto`} />
+      <div className={isBlogSection
+        ? "font-body min-h-screen relative bg-[#0c0805] text-[#fbe3c8]"
         : "bg-[#0a0a0b] text-mist font-body min-h-screen"
       }>
 
@@ -170,7 +176,7 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
           <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-white/5 bg-[#0c0c0e] p-5 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:relative'}`}>
             <div className="mb-8">
               <p className="text-[9px] uppercase tracking-[0.4em] text-pewter">Admin Panel</p>
-              <h1 className="font-display text-xl text-white mt-1">Sanctuary</h1>
+              <h1 className="font-display text-xl text-white mt-1">Manifesto</h1>
             </div>
 
             <nav className="flex-1 space-y-1">
