@@ -100,7 +100,13 @@ export default function Dashboard({ projects = [], blogPosts = [] }: Props) {
 
       // Line
       ctx.beginPath();
-      points.forEach((p, i) => { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+      points.forEach((p, i) => {
+        if (i === 0) {
+          ctx.moveTo(p.x, p.y);
+        } else {
+          ctx.lineTo(p.x, p.y);
+        }
+      });
       ctx.strokeStyle = '#4ade80';
       ctx.lineWidth = 2;
       ctx.lineJoin = 'round';

@@ -1,15 +1,17 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
+import { RequestPayload } from '@inertiajs/core';
 import React, { FormEvent, useState } from 'react';
 import TiptapEditor from '../../components/TiptapEditor';
+import { Project } from '../../lib/data';
 
 interface Props {
-  project?: any;
+  project?: (Project & { id?: number | string }) | null;
 }
 
 export default function AddProject({ project }: Props) {
   const [imageSource, setImageSource] = useState<'url' | 'upload'>('url');
 
-  const { data, setData, post, put, processing, errors } = useForm<{
+  const { data, setData, post, processing, errors } = useForm<{
     title: string; category: string; technologies: string; status: string;
     image: string | File | null; live_url: string; repo_url: string; description: string;
   }>({
@@ -29,7 +31,7 @@ export default function AddProject({ project }: Props) {
       router.post(`/admin/project/${project.id}`, {
         ...data,
         _method: 'PUT',
-      } as any);
+      } as unknown as RequestPayload);
     } else {
       post('/admin/project');
     }

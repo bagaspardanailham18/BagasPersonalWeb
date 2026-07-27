@@ -12,7 +12,7 @@ export function MeteorShower() {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let meteors: Meteor[] = [];
+    const meteors: Meteor[] = [];
     let animationFrameId: number;
 
     const initCanvas = () => {

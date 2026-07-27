@@ -1,12 +1,20 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
+import { RequestPayload } from '@inertiajs/core';
 import React, { FormEvent, useState } from 'react';
 import TiptapEditor from '../../components/TiptapEditor';
+import { BlogPost } from '../../lib/data';
 
-interface Props {
-  blog?: any;
+interface BlogContentBlock {
+  type: string;
+  text?: string;
+  items?: string[];
 }
 
-const convertBlocksToHtml = (blocks: any[]) => {
+interface Props {
+  blog?: (Omit<BlogPost, 'content'> & { id?: number | string; content?: BlogContentBlock[] | string }) | null;
+}
+
+const convertBlocksToHtml = (blocks?: BlogContentBlock[] | string | null) => {
   if (!blocks || !Array.isArray(blocks)) return '';
   return blocks.map((block) => {
     if (block.type === 'quote') {
@@ -60,7 +68,7 @@ const parseHtmlToBlocks = (html: string) => {
 export default function AddBlog({ blog }: Props) {
   const [imageSource, setImageSource] = useState<'url' | 'upload'>('url');
 
-  const { data, setData, post, put, processing, errors } = useForm<{
+  const { data, setData, processing, errors } = useForm<{
     title: string; category: string; reading_time: string;
     cover_image: string | File | null; status: string; content: string;
     date: string;
@@ -82,12 +90,12 @@ export default function AddBlog({ blog }: Props) {
         ...data,
         content: blocksContent,
         _method: 'PUT',
-      } as any);
+      } as unknown as RequestPayload);
     } else {
       router.post('/admin/blog', {
         ...data,
         content: blocksContent,
-      } as any);
+      } as unknown as RequestPayload);
     }
   };
 
