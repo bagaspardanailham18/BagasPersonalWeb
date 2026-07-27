@@ -51,18 +51,17 @@ export default function ProjectDetail({ project }: Props) {
 
   return (
     <>
-      <Head title={`${project.title} — Personal Sanctuary`}>
+      <Head title={`${project.title} — Personal Manifesto`}>
         <meta name="description" content={stripHtml(project.description || '').substring(0, 160)} />
       </Head>
       <div className="min-h-screen bg-[#050505] font-body text-mist">
-        
+
         <header
-          className={`sticky top-0 z-20 mx-auto flex max-w-4xl items-center justify-between border-b border-white/5 px-6 pt-8 pb-6 transition-[background-color,backdrop-filter] sm:px-10 sm:pt-12 sm:pb-10 ${
-            isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-[#050505]/95'
-          }`}
+          className={`sticky top-0 z-20 mx-auto flex max-w-4xl items-center justify-between border-b border-white/5 px-6 pt-8 pb-6 transition-[background-color,backdrop-filter] sm:px-10 sm:pt-12 sm:pb-10 ${isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-[#050505]/95'
+            }`}
         >
           <Link href="/#projects" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-pewter transition hover:text-white group">
-             <span className="inline-block transition-transform group-hover:-translate-x-1">←</span> Back
+            <span className="inline-block transition-transform group-hover:-translate-x-1">←</span> Back
           </Link>
         </header>
 
@@ -78,23 +77,23 @@ export default function ProjectDetail({ project }: Props) {
                 </span>
               </div>
               <h1 className="font-display text-4xl sm:text-5xl text-white">{project.title}</h1>
-              <div 
-                className="max-w-2xl text-lg sm:text-xl text-pewter leading-relaxed tiptap" 
+              <div
+                className="max-w-2xl text-lg sm:text-xl text-pewter leading-relaxed tiptap"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(project.description || '') }}
               />
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4 border-t border-white/5">
-                {(project.liveUrl || project.live_url) && (
-                   <a href={project.liveUrl || project.live_url} target="_blank" rel="noreferrer" className="rounded-full bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-white/90">
-                     Live space ↗
-                   </a>
-                )}
-                {(project.repoUrl || project.repo_url) && (
-                   <a href={project.repoUrl || project.repo_url} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 px-6 py-2.5 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-white/10">
-                     Source code ↗
-                   </a>
-                )}
+              {(project.liveUrl || project.live_url) && (
+                <a href={project.liveUrl || project.live_url} target="_blank" rel="noreferrer" className="rounded-full bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-white/90">
+                  Live space ↗
+                </a>
+              )}
+              {(project.repoUrl || project.repo_url) && (
+                <a href={project.repoUrl || project.repo_url} target="_blank" rel="noreferrer" className="rounded-full border border-white/20 px-6 py-2.5 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-white/10">
+                  Source code ↗
+                </a>
+              )}
             </div>
 
             <div className="relative mt-12 aspect-video overflow-hidden rounded-[2.5rem] border border-white/10 shadow-soft">
@@ -116,17 +115,17 @@ export default function ProjectDetail({ project }: Props) {
                 ))}
               </ul>
             </div>
-            
+
             <div className="mt-16 sm:mt-24 space-y-8 text-pewter leading-relaxed">
               <h2 className="font-display text-2xl text-white">Project Notes</h2>
               <p>
-                Every project begins as a rough sketch during a morning run or late-night piano session. 
-                For <strong>{project.title}</strong>, the goal was to distill the complexity of its underlying 
+                Every project begins as a rough sketch during a morning run or late-night piano session.
+                For <strong>{project.title}</strong>, the goal was to distill the complexity of its underlying
                 systems ({project.technologies.join(', ')}) into an interface that feels calm, responsive, and natural.
               </p>
               <p>
-                The architecture prioritized latency and immediate visual feedback. 
-                By relying on minimalist design cues and robust backend performance, 
+                The architecture prioritized latency and immediate visual feedback.
+                By relying on minimalist design cues and robust backend performance,
                 we've created a digital space that respects the user's attention.
               </p>
             </div>
@@ -205,9 +204,9 @@ export default function ProjectDetail({ project }: Props) {
             </div>
           </div>
         </main>
-        
+
         <footer className="mx-auto max-w-4xl border-t border-white/5 py-8 text-center text-xs text-pewter mt-12">
-           <p>© {new Date().getFullYear()} Bagas Pardana Ilham. Contemplative Digital Spaces.</p>
+          <p>© {new Date().getFullYear()} Bagas Pardana Ilham. Contemplative Digital Spaces.</p>
         </footer>
       </div>
     </>

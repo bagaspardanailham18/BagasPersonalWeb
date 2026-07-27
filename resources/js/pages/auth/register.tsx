@@ -12,7 +12,7 @@ export default function Register() {
 
     return (
         <>
-            <Head title="Create an account — Personal Sanctuary" />
+            <Head title="Create an account — Personal Manifesto" />
             <div className="bg-[#050505] text-mist font-body">
                 <MeteorShower />
 
@@ -28,7 +28,7 @@ export default function Register() {
                     <div className="glass-card relative w-full max-w-md rounded-[2.5rem] p-8 sm:p-10 shadow-soft animate-fade-in-up delay-1">
                         <div className="text-center space-y-3 mb-10">
                             <p className="text-[10px] uppercase tracking-[0.4em] text-pewter sm:text-xs">Join the</p>
-                            <h1 className="font-display text-3xl sm:text-4xl text-white">Personal Sanctuary</h1>
+                            <h1 className="font-display text-3xl sm:text-4xl text-white">Personal Manifesto</h1>
                             <p className="text-sm text-pewter leading-relaxed">Enter your details below to create your account</p>
                         </div>
 
